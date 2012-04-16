@@ -1,0 +1,274 @@
+##############################
+#            Key             #
+##############################
+
+=   instance attribute
+==  class attribute
++   public method
+-   private method
+++  static method
+<:  inheretence
+:   type
+
+#Notes:
+#need someway of scripting "cut scenes"
+  #character says
+  #character moves
+  #give/take/drop items
+
+##############################
+#          Lua API           #
+##############################
+
+Plot[var] = plot variables
+Event constructors
+Event handlers?
+
+
+##############################
+#         Scripting          #
+##############################
+
+#A lua expression that evalutes to a boolean
+Condition
+  =lua : string
+  +allows() : boolean
+
+GuardedObject
+  =condition : Condition
+  +isAllowed() : boolean
+
+GuardedList<T <: GuardedObject>
+  =cobjects : list<T>
+  +size() : int
+  +getFirst() : T #could be nice to also alias this to the () or * operator
+  +getAll() : set<T> # gets all the ones whose guards permit
+  +add(t : T) : void
+  +add(t : T, int pos) : void
+  +remove(t : T) : void
+
+#IDEA have the resource associated with each event
+#then things can subscribe to events associated with specific resources
+#so a quest might subscribe to the event
+#"NPC/Quest/Lost_Dog/doggy.npc", "death"
+#that way it's easy for there to be a standard set of events that happen
+#and also support random ass events in mods that get ignored by main game logic :D
+EventManager
+  =map<ResourcePath,map<GenericEvent,EventHandler>
+
+GenericEvent
+  +equals(GenericEvent) : bool
+
+DeathEvent
+  +equals(GenericEvent) : bool
+
+#..all other events
+
+#can be used in modding
+StringEvent <: GenericEvent
+  =event : string
+  +(String event)
+
+EventHandler
+  +handleEvent(ResourcePath raiser, Generic event)
+
+EventRaiser
+  -raiserName() : name
+  +sendEvent(GenericEvent event)
+
+
+##############################
+#            Plot            #
+##############################
+
+#it seems reasonable that many conditions will need to know about active quests
+#therefore there needs to be a nice api for querying them
+#easiest that I can think of at the moment is to have each quest as a separate resource
+#then Quests can be refered to uniquely by resource pathes
+#a Quest tree might contain something like
+#Quest/Lost_Dog/root.qst
+#Quest/Lost_Dog/Found/root.qst
+#Quest/Lost_Dog/Killed/root.qst
+Quest <: Resource
+  =name : string
+  =description : string
+
+PlotVariable
+  =name : string
+  =string_value : string
+  =int_value : int
+  +get<T>() : T
+  +set<T>(T v) : void
+  ++getVariable(name : string) : PlotVariable
+  ==map<string,PlotVariable>
+
+#you may want to get rid of metalogues and just have nps have a guardedlist of Dialogues
+#you can get the same effects, but it does away with explicit transitions between metalogues
+Metalogue
+  =root
+  =current : MegalogueNode
+  +getDialogue() : DialogueNode
+
+MetalogueNode <: GuardedObject
+  =name : string
+  =children : GuardedList<MetalogueNode>
+  =dialogue : DialogueNode
+
+DialogueNode <: GuardedObject
+  =metalogue : MetalogueNode
+  =name : string
+  =option : string # what the player says, blank for root node
+  =responce : string # what the npc responds
+  =children : GuardedList<DialogueNode>
+  =event : GenericEvent # should be raised by the npc doing the talking
+  +options() : list<pair<string,DialogueNode>>
+  +visit() : void
+  
+
+##############################
+#           Game             #
+##############################
+
+#contains the main loop, manages timing
+#possibly also handles passing inut and graphics contexes
+Game
+  =states : stack<GameState>
+  +pushState(GameState) : void
+  +popState() : void
+  +run() : void
+
+#things like menu's, playing, paused etc
+GameState
+  +step()
+
+#manages a game world, etc
+World
+  =resources : ResourceManager
+  =save : SaveProvider
+  =currentMap
+  =party : list<Player>
+  +setSave(SaveProvider save) : void
+  +saveGame() : void
+  +loadGame() : void
+
+Die
+  ==dN : map<int,Die>
+  ++(int n) #Die are singletons
+  =n : int
+  +(int n)
+  +roll(int n) #roll n Die's
+  +roll()
+  + +(Die) # constructs a diceroll
+
+DiceRoll
+  =list<pair<int,Die>>
+  + +(Die) #appends a die to the list
+  +roll()
+
+
+##############################
+#         Character          #
+##############################
+
+#can also be used as a differential for change in alignments present with various quests
+Alignment
+  =lawfulness : int
+  =morality : int # negative is evil, positive is good
+  +toString #writes as string representation
+
+Character <: Resource
+  =name : string
+  =attributes : ?
+  =hp : int
+  =mp : int
+  =inventory : list<Item>
+  =gfx_archtype : ?
+  =facing : Tile
+  =alignment : Alignment
+  +step() : void
+  +doMelee() : void
+  +takeDamage(int dmg) : void
+
+Player <: Character
+  +step() : void
+
+NPC <: Character
+  =metalogue : Metalogue
+  +step() : void
+
+Item <: Resource
+  =name : string
+  =description : string
+  =wieldable : bool
+  =wearable : bool
+  =sellPrice : int
+  =buyPrice : int
+  =meleeDamage : DiceRoll
+  +canWield() : bool
+  +canWear() : bool
+
+
+##############################
+#            Map             #
+##############################
+
+Map <: GuardedObject, Resource
+  =tiles : ?<Tile>
+  =parent : Map*
+
+Tile <: Resource
+  =onWalkEvent : TileEvent #when a player walks on this tile
+  =gfx_archtype : ?
+  =occupant : Character
+  =items : list<item>
+  =walkable : bool
+  +subMaps : GuardedList<Map>
+  +removeOccupant() : void
+  +placeOccupant(Character char) : bool # returns false if not possible
+
+
+##############################
+#         Resources          #
+##############################
+
+ResourceException <: GenericException #generic Exception will probably just be typedef'ed to exception
+  +(string)
+
+NoSuchPathException : ResourceException
+  +(ResourcePath)
+
+ResourceManager
+  =providers : list<ResourceProvider> #most recent providers take precidence over older ones, allows for partial mods to bed added
+  ==resourceMap : map<int,static Resource class?>
+  +addProvider(ResourceProvider) : void
+#manages caching resources, returns a copy constructed instance of the object
+  +loadResource(string name) : Resource *
+#maintain a worker thread that loads resources in the background
+  +preloadResource(string name) : void
+
+ResourceProvider
+  +provides(string name) : bool
+  +getBuffer(ResourcePath) : const unsigned char *
+  +putBuffer(ResourcePath, buffer)
+
+ResourcePath
+  ==Any : ResourcePath # matches any children, like a glob *
+  +(string path)
+  +splt() : list<string>
+  +dir() : ResourcePath
+  +up() : ResourcePath
+  +down(string path) : ResourcePath
+  +matches(ResourcePath path) : bool
+
+DirectoryProvider <: ResourceProvider
+  +(string directory, bool recursive)
+
+SaveProvider 
+
+Resource
+  =magicnumber : int
+  -setManager(ResourceManager manager) : void
+  +resourceName() : string # the path that resulted in this object
+  +loadResource(string name) : Resource  # loads a resource from the manager that loaded this resource
+  ++loadFromBuffer(string buffer) : Resource
+  ++saveToBuffer() : string

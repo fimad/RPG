@@ -1,0 +1,68 @@
+engine supporting
+  large free roaming top down
+  city/area centric
+  mechanism for fast travelling between known locations on maps
+  overworld for looking for new and hidden places
+    similar to adom in that you can explore any region that you are currently over
+  multiple overworlds through accessible through "portals" in either the overworld or main
+  concept of time (maybe)
+  realtime movement
+
+  combat?
+    turn based?
+      like kotor? (realtime but still turn based)
+      dnd-esque
+    final fantasy style?
+
+  parties
+    potentially multiplayer
+
+  dnd style character attributes
+    weapons
+      melee
+      ranged
+    magic
+
+  graphics or ascii
+    graphic mods
+
+  everything mods?
+
+story ideas
+  several chapters
+
+    establishment of the great barrel cult
+      player can either work for or against the cult
+      player infuences which deity backs the cult
+        if the player works for the cult, then the deity is whichever the player picks
+        otherwise it is the rival deity
+
+        various deities influence the nature of the cult
+
+dialogue trees
+  id/name
+  plot gaurds as well
+  events associated with 'every', or 'first' transition to a node
+metalogue trees
+  tree of dialogue trees
+  player starts at root, api for transitioning between nodes by id/name
+  events associated with transitions as well
+
+Story
+  successive chapters
+  export plot variables, once set cannot be unset, (markers for significant places in plot development)
+  when building the world, maps should have guards that reference plot variables
+
+Quests
+  various types of goals/events
+    "stand here" (maps contain marked areas, can also trigger scripts)
+    acquire item
+    give item to
+  tree structure for sub quests
+
+Maps
+  tree structure
+  root node is the overworld
+  each tile of the map can have an associated name/id for sub maps
+  multiple maps with same name
+    contain plot guards
