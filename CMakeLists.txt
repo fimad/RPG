@@ -30,6 +30,8 @@ set(SRC
   src/resources/ResourceManager.hpp
   src/resources/ResourceManager.cpp
   src/resources/ResourceProvider.hpp
+  src/resources/DirectoryProvider.hpp
+  src/resources/DirectoryProvider.cpp
 )
 
 add_executable(barrel

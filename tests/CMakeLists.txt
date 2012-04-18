@@ -7,4 +7,5 @@ macro(make_test _name _header)
 endmacro(make_test)
 
 make_test(test_res_path resources/test_path.hpp)
+make_test(test_res_dir_prov resources/test_directory_provider.hpp)
 
