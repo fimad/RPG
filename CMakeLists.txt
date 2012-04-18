@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Barrel)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
+set(CMAKE_CXX_FLAGS "-std=c++0x")
 
 find_package(SFML 2 COMPONENTS system window graphics)
 find_package(SFGUI)
@@ -11,14 +12,25 @@ set(EXT_LIBS
   ${SFML_LIBRARIES}
 )
 
-include_directories(${SFML_INCLUDE_DIR} ${SFGUI_INCLUDE_DIR})
+include_directories(${SFML_INCLUDE_DIR} ${SFGUI_INCLUDE_DIR} src/)
 
 set(SRC
   src/main.cpp
+  src/Errors.hpp
+  src/Errors.cpp
+  src/resources/Path.hpp
+  src/resources/Path.cpp
+  src/resources/Resource.hpp
+  src/resources/Resource.cpp
+  src/resources/ResourceDefs.hpp
+  src/resources/ResourceDefs.cpp
+  src/resources/ResourceManager.hpp
+  src/resources/ResourceManager.cpp
+  src/resources/ResourceProvider.hpp
 )
 
 add_executable(barrel
-  SOURCES ${SRC}
-  EXTERNAL_LIBS ${EXT_LIBS}
+  ${SRC}
+  ${EXT_LIBS}
 )
 
