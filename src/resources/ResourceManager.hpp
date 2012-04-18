@@ -25,7 +25,9 @@ class ResourceManager{
 
       for(auto i = providers.begin(); i!=providers.end(); i++){
         if((*i)->provides(path)){
-          return T::loadFromBuffer((*i)->getBuffer(path));
+          T* resource = T::loadFromBuffer((*i)->getBuffer(path));
+          resource->manager = this;
+          return resource;
         }
       }
       raise(NoSuchPathException,path);

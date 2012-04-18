@@ -1,6 +1,8 @@
 cmake_minimum_required (VERSION 2.6)
 project (Barrel)
 
+ENABLE_TESTING()
+
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "-std=c++0x")
 
@@ -14,8 +16,9 @@ set(EXT_LIBS
 
 include_directories(${SFML_INCLUDE_DIR} ${SFGUI_INCLUDE_DIR} src/)
 
+add_subdirectory(tests) #all of our unit tests!
+
 set(SRC
-  src/main.cpp
   src/Errors.hpp
   src/Errors.cpp
   src/resources/Path.hpp
@@ -30,6 +33,12 @@ set(SRC
 )
 
 add_executable(barrel
+  src/main.cpp
+  ${SRC}
+  ${EXT_LIBS}
+)
+
+add_library(barrel-lib
   ${SRC}
   ${EXT_LIBS}
 )

@@ -6,7 +6,18 @@ const Path Path::Any = Path();
 
 Path::Path(const string& path){
   isAny = false;
-  child = NULL;
+  int slashIndex;
+  if( (slashIndex = path.find('/')) == string::npos ){
+    if( !isValidName(path) )
+      raise(InvalidPathComponentException,path);
+    name = path;
+    child = NULL;
+  }else{
+    name = path.substr(0,slashIndex);
+    if( !isValidName(name) ) //do we have a valid name for this path?
+      raise(InvalidPathComponentException,path);
+    child = new Path(path.substr(slashIndex+1)); //recursively gen the children
+  }
 }
 
 Path::Path(const Path& path){

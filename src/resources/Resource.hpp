@@ -16,6 +16,7 @@ class Resource{
     const Path& getPath();
     //static Resource* loadFromBuffer(string buffer);
     virtual string saveToBuffer() = 0;
+    friend class ResourceManager;
   private:
     ResourceManager* manager;
     Path path;
