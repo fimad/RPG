@@ -2,6 +2,6 @@
 #include "scripting/EventManager.hpp"
 
 void EventRaiser::raiseEvent(GenericEvent* type){
-  EventManager::global()->raise(this->getPath(),type);
+  EventManager::global()->raiseEvent(this->getPath(),type);
 }
 

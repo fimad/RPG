@@ -48,7 +48,7 @@ void EventManager::unsubscribe(EventHandler* handler){
   }
 }
 
-void EventManager::raise(Path raiser, GenericEvent* type){
+void EventManager::raiseEvent(Path raiser, GenericEvent* type){
   if( eventToHandler.count(raiser) ){
     for(EventHandler* handler : eventToHandler[raiser]){
       handler->handleEvent(raiser,type);

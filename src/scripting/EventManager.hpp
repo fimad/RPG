@@ -22,7 +22,7 @@ class EventManager {
 
     friend class EventRaiser;
   private:
-    void raise(Path raiser, GenericEvent* type);
+    void raiseEvent(Path raiser, GenericEvent* type);
     EventManager();
 
     static EventManager* instance;

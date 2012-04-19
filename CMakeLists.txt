@@ -8,13 +8,26 @@ set(CMAKE_CXX_FLAGS "-std=c++0x")
 
 find_package(SFML 2 COMPONENTS system window graphics)
 find_package(SFGUI)
+find_package(Lua51)
+
+#hack to easily compile with SLB on my system
+set(SLB_LIBRARY ${PROJECT_SOURCE_DIR}/../slb/build/bin/static/libSLB.a)
+set(SLB_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/../slb/include)
 
 set(EXT_LIBS
   ${SFGUI_LIBRARY}
   ${SFML_LIBRARIES}
+  ${LUA_LIBRARY}
+  ${SLB_LIBRARY}
 )
 
-include_directories(${SFML_INCLUDE_DIR} ${SFGUI_INCLUDE_DIR} src/)
+include_directories(
+  ${SFML_INCLUDE_DIR}
+  ${SFGUI_INCLUDE_DIR}
+  ${LUA_INCLUDE_DIR}
+  ${SLB_INCLUDE_DIR}
+  src/
+)
 
 add_subdirectory(tests) #all of our unit tests!
 
@@ -43,6 +56,10 @@ set(SRC
   src/scripting/StringEvent.cpp
   src/scripting/EventRaiser.hpp
   src/scripting/EventRaiser.cpp
+  src/scripting/LuaWrapper.hpp
+  src/scripting/LuaWrapper.cpp
+  src/scripting/LuaErrors.hpp
+  src/scripting/LuaErrors.cpp
 )
 
 add_library(barrel-lib

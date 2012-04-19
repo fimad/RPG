@@ -9,8 +9,9 @@ class StringEvent : public GenericEvent {
   public:
     StringEvent(const string& value);
     virtual bool equals(const GenericEvent*);
+    const string& value();
   private:
-    string value;
+    string _value;
 };
 
 #endif
