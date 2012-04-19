@@ -64,8 +64,8 @@ set(SRC
   src/scripting/Condition.cpp
   src/scripting/GuardedObject.hpp
   src/scripting/GuardedObject.cpp
-#  src/scripting/GuardedList.hpp
-#  src/scripting/GuardedList.cpp
+  src/scripting/GuardedList.hpp
+#  src/scripting/GuardedList.cpp #atm everything is in the .hpp because it's a template
 )
 
 add_library(barrel-lib
