@@ -27,6 +27,7 @@ class ResourceManager{
         if((*i)->provides(path)){
           T* resource = T::loadFromBuffer((*i)->getBuffer(path));
           resource->manager = this;
+          resource->path = path;
           return resource;
         }
       }

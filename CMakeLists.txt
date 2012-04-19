@@ -21,6 +21,7 @@ add_subdirectory(tests) #all of our unit tests!
 set(SRC
   src/Errors.hpp
   src/Errors.cpp
+
   src/resources/Path.hpp
   src/resources/Path.cpp
   src/resources/Resource.hpp
@@ -32,6 +33,16 @@ set(SRC
   src/resources/ResourceProvider.hpp
   src/resources/DirectoryProvider.hpp
   src/resources/DirectoryProvider.cpp
+
+  src/scripting/EventManager.hpp
+  src/scripting/EventManager.cpp
+  src/scripting/EventHandler.hpp
+  src/scripting/GenericEvent.hpp
+  src/scripting/GenericEvent.cpp
+  src/scripting/StringEvent.hpp
+  src/scripting/StringEvent.cpp
+  src/scripting/EventRaiser.hpp
+  src/scripting/EventRaiser.cpp
 )
 
 add_executable(barrel

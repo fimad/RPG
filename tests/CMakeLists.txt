@@ -8,4 +8,5 @@ endmacro(make_test)
 
 make_test(test_res_path resources/test_path.hpp)
 make_test(test_res_dir_prov resources/test_directory_provider.hpp)
+#make_test(test_res_man resources/test_resource_manager.hpp)
 

@@ -3,6 +3,7 @@
 
 #include <string>
 #include "resources/Path.hpp"
+#include "scripting/EventRaiser.hpp"
 using namespace std;
 
 //There is no way to enforce this in cxx, but if you want a useable subclass of Resource
@@ -11,7 +12,7 @@ using namespace std;
 //but the error messages won't be pretty :P
 
 class ResourceManager;
-class Resource{
+class Resource : public EventRaiser{
   public:
     const Path& getPath();
     //static Resource* loadFromBuffer(string buffer);

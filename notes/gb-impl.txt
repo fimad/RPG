@@ -54,7 +54,13 @@ GuardedList<T <: GuardedObject>
 #that way it's easy for there to be a standard set of events that happen
 #and also support random ass events in mods that get ignored by main game logic :D
 EventManager
-  =map<ResourcePath,map<GenericEvent,EventHandler>
+  =map<Path,map<GenericEvent*,EventHandler*>
+  ++() #singleton
+  ++destroy() #destroys this instance of the event manager
+  ==EventManager instance;
+  +subscribe(EventHandler*,Path,GenericEvent*)
+  +unsubscribe(EventHandler*) #unsubscribes from all events
+  +raise(Path,GenericEvent*)
 
 GenericEvent
   +equals(GenericEvent) : bool
