@@ -45,14 +45,14 @@ set(SRC
   src/scripting/EventRaiser.cpp
 )
 
-add_executable(barrel
-  src/main.cpp
-  ${SRC}
-  ${EXT_LIBS}
-)
-
 add_library(barrel-lib
   ${SRC}
   ${EXT_LIBS}
 )
+
+add_executable(barrel
+  src/main.cpp
+  ${EXT_LIBS}
+)
+target_link_libraries(barrel barrel-lib)
 

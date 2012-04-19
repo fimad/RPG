@@ -2,7 +2,7 @@
 
 GenericEvent::GenericEvent(){}
 
-bool GenericEvent::operator==(const GenericEvent& other){
-  false;
+bool GenericEvent::equals(const GenericEvent* other){
+  return false;
 }
 

@@ -12,7 +12,7 @@ class GenericEvent {
   protected:
     GenericEvent();
   public:
-    virtual bool operator==(const GenericEvent&);
+    virtual bool equals(const GenericEvent*);
 };
 
 #endif

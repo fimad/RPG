@@ -40,10 +40,9 @@ void EventManager::subscribe(EventHandler* handler, Path raiser){
 
 void EventManager::unsubscribe(EventHandler* handler){
   if( handlerToEvent.count(handler) ){
-    auto eventSet = handlerToEvent[handler];
     //remove handler from each set in eventToHandler
-    for(auto it=eventSet.begin(); it!=eventSet.end(); it++){
-      eventToHandler[*it].erase(handler);
+    for(Path p : handlerToEvent[handler]){
+      eventToHandler[p].erase(handler);
     }
     handlerToEvent.erase(handler);
   }
@@ -51,9 +50,8 @@ void EventManager::unsubscribe(EventHandler* handler){
 
 void EventManager::raise(Path raiser, GenericEvent* type){
   if( eventToHandler.count(raiser) ){
-    auto handlerSet = eventToHandler[raiser];
-    for(auto it=handlerSet.begin(); it!=handlerSet.end(); it++){
-      (*it)->handleEvent(raiser,type);
+    for(EventHandler* handler : eventToHandler[raiser]){
+      handler->handleEvent(raiser,type);
     }
   }
 }

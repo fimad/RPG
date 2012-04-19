@@ -8,7 +8,7 @@ using namespace std;
 class StringEvent : public GenericEvent {
   public:
     StringEvent(const string& value);
-    virtual bool operator==(const GenericEvent&);
+    virtual bool equals(const GenericEvent*);
   private:
     string value;
 };

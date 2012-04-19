@@ -146,6 +146,8 @@ bool Path::operator<(const Path& path) const{
     return true;
   }else if( child && !path.child ){
     return false;
+  }else if( !child && !path.child ){ //equal?
+    return false;
   }else{
     return *child < *path.child;
   }

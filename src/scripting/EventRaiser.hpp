@@ -1,5 +1,5 @@
-#ifndef _STRING_EVENT_HPP_
-#define _STRING_EVENT_HPP_
+#ifndef _EVENT_RAISER_HPP_
+#define _EVENT_RAISER_HPP_
 
 #include "resources/Path.hpp"
 
