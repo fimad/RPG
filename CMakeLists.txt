@@ -60,6 +60,12 @@ set(SRC
   src/scripting/LuaWrapper.cpp
   src/scripting/LuaErrors.hpp
   src/scripting/LuaErrors.cpp
+  src/scripting/Condition.hpp
+  src/scripting/Condition.cpp
+  src/scripting/GuardedObject.hpp
+  src/scripting/GuardedObject.cpp
+#  src/scripting/GuardedList.hpp
+#  src/scripting/GuardedList.cpp
 )
 
 add_library(barrel-lib

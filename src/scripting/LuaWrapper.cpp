@@ -7,6 +7,7 @@
 #include "scripting/StringEvent.hpp"
 #include "scripting/GenericEvent.hpp"
 #include "scripting/EventManager.hpp"
+#include "scripting/Condition.hpp"
 
 SLB::Script* LuaWrapper::script = NULL;
 
@@ -25,8 +26,12 @@ void LuaWrapper::setup(){
 
   exportApi(SLB::Manager::defaultManager());
 
-  //export the SLB namespace to the global table
   doString("SLB.using(SLB.Barrel)");
+  doString(" \
+    function evaluate(x) \
+      return load(x)() \
+    end \
+  ");
 }
 
 void LuaWrapper::printCallback_stderr(SLB::Script* script, const char* error, size_t size){
@@ -85,6 +90,10 @@ void LuaWrapper::exportApi(SLB::Manager* m){
     .constructor<const string&>()
     .set("equals", &StringEvent::equals)
     .set("value", &StringEvent::value)
+  ;
+  
+  SLB::Class<Condition>("Barrel::Condition",m)
+    .constructor<const string&>()
   ;
 }
 

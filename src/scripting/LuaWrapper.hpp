@@ -19,6 +19,19 @@ class LuaWrapper{
     static void doString(const string& lua);
     static void doFile(const string& fileName);
 
+    //a wrapper for SLB::CallLua class
+    //TODO: better error handling for when the lua environment is not setup
+    template<class Result, class ... Args>
+    static Result callLua(const string& func, const Args&... args){
+      SLB::LuaCall<Result(Args...)> call(script->getState(), func.c_str());
+      return call(args...);
+    }
+
+    template<class Result>
+    static Result evaluate(const string& lua){
+      return callLua<bool,string>("evaluate", "return "+lua);
+    }
+
     static void printCallback_stderr(SLB::Script*,const char*,size_t);
 
     //exports a value to the global namespace

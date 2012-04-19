@@ -93,6 +93,11 @@ class LuaTestSuite : public CxxTest::TestSuite{
       LuaWrapper::doString("raiser:raiseEvent(testEvent)");
       TS_ASSERT(handler->didHandle());
     }
+
+    void test_evaluate(){
+      TS_ASSERT(LuaWrapper::evaluate<bool>("'a' == 'a'"));
+      TS_ASSERT(!LuaWrapper::evaluate<bool>("'a' == 'b'"));
+    }
 };
 
 bool LuaTestSuite::isSet = false;
