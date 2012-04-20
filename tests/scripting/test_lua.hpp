@@ -1,5 +1,5 @@
 #include <cxxtest/TestSuite.h>
-#include "dummy_events.hpp"
+#include "scripting/dummy_events.hpp"
 #include "scripting/LuaWrapper.hpp"
 #include "SLB/SLB.hpp"
 #include "scripting/EventManager.hpp"

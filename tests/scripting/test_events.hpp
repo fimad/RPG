@@ -2,7 +2,7 @@
 #include "resources/Path.hpp"
 #include "scripting/StringEvent.hpp"
 #include "scripting/EventManager.hpp"
-#include "dummy_events.hpp"
+#include "scripting/dummy_events.hpp"
 
 class EventsTestSuite : public CxxTest::TestSuite{
   private:
