@@ -12,6 +12,7 @@ class GenericEvent {
   protected:
     GenericEvent();
   public:
+    virtual ~GenericEvent();
     virtual bool equals(const GenericEvent*);
 };
 

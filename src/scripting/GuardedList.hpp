@@ -14,6 +14,12 @@ class GuardedList{
       //attempt to enforce the use of subclasses of GuardedObject
       GuardedObject* class_is_not_sub_class_of_GuardedObject = (T*)0;
     }
+    virtual ~GuardedList(){
+      //the guarded list owns all of it's objects and will delete them!
+      for( T* t : _objects ){
+        delete t;
+      }
+    }
     int size() const{ return _objects.size(); }
     void addFront(T* object){ _objects.push_front(object); }
     void addBack(T* object){ _objects.push_back(object); }

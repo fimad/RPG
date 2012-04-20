@@ -4,6 +4,7 @@
 #include <SLB/SLB.hpp>
 #include <SLB/Object.hpp>
 #include <string>
+#include "scripting/LuaErrors.hpp"
 using namespace std;
 
 class LuaWrapper{
@@ -23,6 +24,8 @@ class LuaWrapper{
     //TODO: better error handling for when the lua environment is not setup
     template<class Result, class ... Args>
     static Result callLua(const string& func, const Args&... args){
+      if( !script )
+        raise(LuaException,"Lua not initialized!");
       SLB::LuaCall<Result(Args...)> call(script->getState(), func.c_str());
       return call(args...);
     }

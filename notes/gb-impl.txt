@@ -120,11 +120,14 @@ MetalogueNode <: GuardedObject
   =children : GuardedList<MetalogueNode>
   =dialogue : DialogueNode
 
+Dialogue <: GuardedList<DialogueNode>, Resource
+  +loadFromBuffer
+
 DialogueNode <: GuardedObject
   =metalogue : MetalogueNode
   =name : string
   =option : string # what the player says, blank for root node
-  =responce : string # what the npc responds
+  =response : string # what the npc responds
   =children : GuardedList<DialogueNode>
   =event : GenericEvent # should be raised by the npc doing the talking
   +options() : list<pair<string,DialogueNode>>

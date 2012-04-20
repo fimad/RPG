@@ -31,9 +31,10 @@ class GuardsTestSuite : public CxxTest::TestSuite{
     }
     void tearDown(){
       LuaWrapper::reset();
+      /*
       delete obj1;
       delete obj2;
-      delete obj3;
+      delete obj3;*/
       delete lst;
     }
 

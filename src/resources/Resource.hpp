@@ -14,9 +14,11 @@ using namespace std;
 class ResourceManager;
 class Resource : public EventRaiser{
   public:
+    Resource();
+    virtual ~Resource();
     const Path& getPath();
     //static Resource* loadFromBuffer(string buffer);
-    virtual string saveToBuffer() = 0;
+    //virtual string saveToBuffer() = 0; //on second thought, I don't think I need this
     friend class ResourceManager;
   private:
     ResourceManager* manager;

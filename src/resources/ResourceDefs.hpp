@@ -29,5 +29,15 @@ class InvalidPathComponentException : public ResourceException{
     string component;
 };
 
+class MalformedResourceException : public ResourceException{
+  public:
+    MalformedResourceException(const Path& path, const string& details);
+    ~MalformedResourceException() throw();
+    string description() const throw();
+  private:
+    const Path& _path;
+    string _details;
+};
+
 #endif
 

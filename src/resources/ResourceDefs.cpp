@@ -3,7 +3,7 @@
 
 //ResourceException
 string ResourceException::description() const throw(){
-  return where()+"A resource exception has occurred!";
+  return "A resource exception has occurred!";
 }
 
 //NoSuchPathException
@@ -15,11 +15,10 @@ NoSuchPathException::NoSuchPathException(const Path& path){
   this->path = path.toString();
 }
 
-NoSuchPathException::~NoSuchPathException() throw(){
-}
+NoSuchPathException::~NoSuchPathException() throw(){}
 
 string NoSuchPathException::description() const throw(){
-  return where()+"No such path: '"+path+"'!";
+  return "No such path: '"+path+"'!";
 }
 
 //InvalidPathComponentException
@@ -27,9 +26,20 @@ InvalidPathComponentException::InvalidPathComponentException(const string& comp)
   component = comp;
 }
 
-InvalidPathComponentException::~InvalidPathComponentException() throw(){
-}
+InvalidPathComponentException::~InvalidPathComponentException() throw(){}
 
 string InvalidPathComponentException::description() const throw(){
-  return where()+"Invalid path component: '"+component+"'!";
+  return "Invalid path component: '"+component+"'!";
 }
+
+//MalformedResourceException
+MalformedResourceException::MalformedResourceException(const Path& path, const string& details) : _path(path){
+  _details = details;
+}
+
+MalformedResourceException::~MalformedResourceException() throw(){}
+
+string MalformedResourceException::description() const throw(){
+  return "Path: '"+_path.toString()+"': Malformed resource: "+_details+"!";
+}
+

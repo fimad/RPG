@@ -1,5 +1,5 @@
 FIND_PACKAGE(CxxTest)
-INCLUDE_DIRECTORIES(${CXXTEST_INCLUDE_DIR} tests/)
+INCLUDE_DIRECTORIES(${CXXTEST_INCLUDE_DIR} tests/ .)
 
 macro(make_test _name _header)
   CXXTEST_ADD_TEST(${_name} ${_name}.cpp ${CMAKE_CURRENT_SOURCE_DIR}/${_header})
@@ -12,3 +12,4 @@ make_test(test_res_dir_prov resources/test_directory_provider.hpp)
 make_test(test_scr_events scripting/test_events.hpp)
 make_test(test_scr_lua scripting/test_lua.hpp)
 make_test(test_scr_guards scripting/test_guards.hpp)
+make_test(test_plot_dialogue plot/test_dialogue.hpp)

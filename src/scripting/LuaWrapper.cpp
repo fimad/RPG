@@ -39,22 +39,22 @@ void LuaWrapper::printCallback_stderr(SLB::Script* script, const char* error, si
 }
 
 void LuaWrapper::doString(const string& lua){
-  if(script){
-    try{
-      script->doString(lua.c_str());
-    }catch(exception& e){
-      throw LuaException(e.what());
-    }
+  if( !script )
+    raise(LuaException,"Lua not initialized!");
+  try{
+    script->doString(lua.c_str());
+  }catch(exception& e){
+    throw LuaException(e.what());
   }
 }
 
 void LuaWrapper::doFile(const string& fileName){
-  if(script){
-    try{
-      script->doFile(fileName.c_str());
-    }catch(exception& e){
-      throw LuaException(e.what());
-    }
+  if( !script )
+    raise(LuaException,"Lua not initialized!");
+  try{
+    script->doFile(fileName.c_str());
+  }catch(exception& e){
+    throw LuaException(e.what());
   }
 }
 

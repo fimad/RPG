@@ -14,6 +14,8 @@ find_package(Lua51)
 set(SLB_LIBRARY ${PROJECT_SOURCE_DIR}/../slb/build/bin/static/libSLB.a)
 set(SLB_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/../slb/include)
 
+set(RAPIDXML_INCLUDE_DIR ${PROJECT_SOURCE_DIR}/../rapidxml-1.13)
+
 set(EXT_LIBS
   ${SFGUI_LIBRARY}
   ${SFML_LIBRARIES}
@@ -26,6 +28,7 @@ include_directories(
   ${SFGUI_INCLUDE_DIR}
   ${LUA_INCLUDE_DIR}
   ${SLB_INCLUDE_DIR}
+  ${RAPIDXML_INCLUDE_DIR}
   src/
 )
 
@@ -65,7 +68,15 @@ set(SRC
   src/scripting/GuardedObject.hpp
   src/scripting/GuardedObject.cpp
   src/scripting/GuardedList.hpp
-#  src/scripting/GuardedList.cpp #atm everything is in the .hpp because it's a template
+
+  src/plot/DialogueList.hpp
+  src/plot/DialogueList.cpp
+  src/plot/DialogueNode.hpp
+  src/plot/DialogueNode.cpp
+  src/plot/DialogueEvent.hpp
+  src/plot/DialogueEvent.cpp
+  src/plot/DialogueRunner.hpp
+  src/plot/DialogueRunner.cpp
 )
 
 add_library(barrel-lib
