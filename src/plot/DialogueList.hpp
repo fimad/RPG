@@ -7,7 +7,7 @@
 
 class DialogueList : public GuardedList<DialogueNode>, public Resource{
   public:
-    static DialogueList* loadFromBuffer(const Path& path, const string& buffer);
+    static DialogueList* loadFromBuffer(const Path& path, char* buffer);
 };
 
 #endif

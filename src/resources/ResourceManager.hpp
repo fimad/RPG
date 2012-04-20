@@ -21,11 +21,13 @@ class ResourceManager{
     T* loadResource(const Path& path){
       //hacks to get semi reasonable error messages when passing in non-compliant types
       Resource* not_subclass_of_Resource = (T*)0; //error if we pass something that is not a resource
-      void* did_not_define_loadFromBuffer = (T*(T::*)(const Path&,const string&))&T::loadFromBuffer; //error if loadFromBuffer is not defined
+      void* did_not_define_loadFromBuffer = (void*)((T*(*)(const Path&,char*))&T::loadFromBuffer); //error if loadFromBuffer is not defined
 
       for(auto i = providers.begin(); i!=providers.end(); i++){
         if((*i)->provides(path)){
-          T* resource = T::loadFromBuffer(path,(*i)->getBuffer(path));
+          char* buffer = (*i)->getBuffer(path);
+          T* resource = T::loadFromBuffer(path,buffer);
+          free(buffer);
           resource->manager = this;
           resource->path = path;
           return resource;

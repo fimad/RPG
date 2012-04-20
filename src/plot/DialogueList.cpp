@@ -71,9 +71,8 @@ DialogueNode* xmlNode2DialogueNode(const Path& path, rapidxml::xml_node<>* node,
   return dnode;
 }
 
-DialogueList* DialogueList::loadFromBuffer(const Path& path, const string& buffer){
+DialogueList* DialogueList::loadFromBuffer(const Path& path, char* c_buffer){
   DialogueList* dialogue = new DialogueList();
-  char * c_buffer = (char*)string(buffer.c_str()).c_str(); //We need to make a copy so we don't fuck up the original
   rapidxml::xml_document<> doc;
   try{
     doc.parse<

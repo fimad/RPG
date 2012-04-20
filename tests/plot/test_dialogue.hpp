@@ -6,6 +6,7 @@
 #include "scripting/EventManager.hpp"
 #include "scripting/LuaWrapper.hpp"
 #include "scripting/dummy_events.hpp"
+#include <cstring>
 
 string dialogue_xml = " \
 <dialogue> \
@@ -68,6 +69,7 @@ class DialogueTestSuite : public CxxTest::TestSuite{
     DialogueRunner* runner;
     DummyHandler* handler;
     DummyRaiser* raiser;
+    char* tmp;
   public:
     void setUp(){
       LuaWrapper::setup();
@@ -75,8 +77,12 @@ class DialogueTestSuite : public CxxTest::TestSuite{
       handler = new DummyHandler(new DialogueEvent("Insulted NPC"));
       EventManager::global()->subscribe(handler,raiser->getPath());
 
-      string tmp = dialogue_xml;
+      tmp = (char*)malloc(dialogue_xml.size()+1);
+      memcpy(tmp,dialogue_xml.c_str(),dialogue_xml.size());
+      tmp[dialogue_xml.size()] = 0;
+
       dl = DialogueList::loadFromBuffer(Path("from memory"),tmp);
+      free(tmp);
 
       runner = new DialogueRunner(raiser,dl);
     }

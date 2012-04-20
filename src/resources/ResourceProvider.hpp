@@ -8,7 +8,7 @@ class ResourcePath;
 class ResourceProvider{
   public:
     virtual bool provides(const Path& path) = 0;
-    virtual string getBuffer(const Path& path) = 0;
+    virtual char* getBuffer(const Path& path) = 0;
     virtual void putBuffer(const Path& path, string buffer) = 0;
 };
 

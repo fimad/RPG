@@ -7,7 +7,7 @@ class DirectoryProvider : public ResourceProvider {
   public:
     DirectoryProvider(string root);
     virtual bool provides(const Path& path);
-    virtual string getBuffer(const Path& path);
+    virtual char* getBuffer(const Path& path);
     virtual void putBuffer(const Path& path, string buffer);
   private:
     string rootDirectory;

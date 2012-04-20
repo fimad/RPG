@@ -2,6 +2,7 @@ cmake_minimum_required (VERSION 2.6)
 project (Barrel)
 
 ENABLE_TESTING()
+set(CMAKE_BUILD_TYPE Debug)
 
 set(CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR})
 set(CMAKE_CXX_FLAGS "-std=c++0x")
@@ -33,6 +34,7 @@ include_directories(
 )
 
 add_subdirectory(tests) #all of our unit tests!
+add_subdirectory(tools) #random tools
 
 set(SRC
   src/Errors.hpp
@@ -81,12 +83,10 @@ set(SRC
 
 add_library(barrel-lib
   ${SRC}
-  ${EXT_LIBS}
 )
 
 add_executable(barrel
   src/main.cpp
-  ${EXT_LIBS}
 )
-target_link_libraries(barrel barrel-lib)
+target_link_libraries(barrel barrel-lib ${EXT_LIBS})
 
