@@ -6,10 +6,17 @@
 #include "scripting/EventRaiser.hpp"
 using namespace std;
 
-//There is no way to enforce this in cxx, but if you want a useable subclass of Resource
-//You also need to define a static T* loadFromBuffer(string) method
-//This is used by ResourceManager to load the object from a file, it will yell at you if you don't
-//but the error messages won't be pretty :P
+//Macros that make it "easy" to make new Resources
+#define BEGIN_RESOURCE(className) _DEF_RESOURCE(className,public Resource)
+#define BEGIN_RESOURCE_INHERITS(className,...) _DEF_RESOURCE(className,public Resource,__VA_ARGS__)
+#define _DEF_RESOURCE(className,...) class className : __VA_ARGS__ {
+
+#define END_RESOURCE(className) \
+}; \
+template <> class className* Resource::load<className>(const Path& path,char* buffer);
+
+#define DEF_RESOURCE_LOAD(className) \
+template <> class className* Resource::load<className>(const Path& path,char* buffer)
 
 class ResourceManager;
 class Resource : public EventRaiser{
@@ -17,8 +24,12 @@ class Resource : public EventRaiser{
     Resource();
     virtual ~Resource();
     const Path& getPath();
-    //static Resource* loadFromBuffer(string buffer);
     //virtual string saveToBuffer() = 0; //on second thought, I don't think I need this
+
+    //All Resources must provide a specialization for this function
+    template<class T>
+    static T* load(const Path& path, char* node);
+
     friend class ResourceManager;
   private:
     ResourceManager* manager;

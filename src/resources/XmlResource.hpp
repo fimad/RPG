@@ -21,10 +21,13 @@ typedef rapidxml::xml_document<> XmlDoc;
 
 #define END_XML_RESOURCE(className) \
 }; \
-template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node);
-//extern template class className* XmlResource::load<className>(const Path& path,XmlNode* node);
+template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node); \
+template <> class className* Resource::load<className>(const Path& path,char* buffer);
 
 #define DEF_XML_RESOURCE_LOAD(className) \
+template <> class className* Resource::load<className>(const Path& path,char* buffer){ \
+  return XmlResource::load<className>(path,buffer); \
+} \
 template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node)
 
 class XmlResource : public Resource{
@@ -32,13 +35,7 @@ class XmlResource : public Resource{
     XmlResource();
     virtual ~XmlResource();
 
-    /*
-    template<class T>
-    static T* load(const Path& path, XmlNode* node){
-      //This version of the load function should never actually get used
-      T* dummy = (XmlResource*)0;
-      return new XmlResource();
-    }*/
+    //All deriving XmlResources, must provide a specialization for this function
     template<class T>
     static T* load(const Path& path, XmlNode* node);
 

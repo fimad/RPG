@@ -4,9 +4,9 @@
 #include <list>
 #include <map>
 #include "resources/ResourceProvider.hpp"
+#include "resources/Resource.hpp"
 using namespace std;
 
-class Resource;
 class Path;
 
 class ResourceManager{
@@ -21,12 +21,11 @@ class ResourceManager{
     T* loadResource(const Path& path){
       //hacks to get semi reasonable error messages when passing in non-compliant types
       Resource* not_subclass_of_Resource = (T*)0; //error if we pass something that is not a resource
-      void* did_not_define_loadFromBuffer = (void*)((T*(*)(const Path&,char*))&T::loadFromBuffer); //error if loadFromBuffer is not defined
 
       for(auto i = providers.begin(); i!=providers.end(); i++){
         if((*i)->provides(path)){
           char* buffer = (*i)->getBuffer(path);
-          T* resource = T::loadFromBuffer(path,buffer);
+          T* resource = Resource::load<T>(path,buffer);
           free(buffer);
           resource->manager = this;
           resource->path = path;
