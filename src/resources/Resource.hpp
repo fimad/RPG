@@ -7,12 +7,7 @@
 using namespace std;
 
 //Macros that make it "easy" to make new Resources
-#define BEGIN_RESOURCE(className) _DEF_RESOURCE(className,public Resource)
-#define BEGIN_RESOURCE_INHERITS(className,...) _DEF_RESOURCE(className,public Resource,__VA_ARGS__)
-#define _DEF_RESOURCE(className,...) class className : __VA_ARGS__ {
-
-#define END_RESOURCE(className) \
-}; \
+#define MAKE_RESOURCE(className) \
 template <> class className* Resource::load<className>(const Path& path,char* buffer);
 
 #define DEF_RESOURCE_LOAD(className) \

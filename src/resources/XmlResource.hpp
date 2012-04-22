@@ -15,12 +15,7 @@ typedef rapidxml::xml_node<> XmlNode;
 typedef rapidxml::xml_document<> XmlDoc;
 
 //Macros that make it "easy" to make new XmlResources
-#define BEGIN_XML_RESOURCE(className) _DEF_XML_RESOURCE(className,public XmlResource)
-#define BEGIN_XML_RESOURCE_INHERITS(className,...) _DEF_XML_RESOURCE(className,public XmlResource,__VA_ARGS__)
-#define _DEF_XML_RESOURCE(className,...) class className : __VA_ARGS__ {
-
-#define END_XML_RESOURCE(className) \
-}; \
+#define MAKE_XML_RESOURCE(className) \
 template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node); \
 template <> class className* Resource::load<className>(const Path& path,char* buffer);
 

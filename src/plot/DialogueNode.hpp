@@ -3,11 +3,12 @@
 
 #include "scripting/GuardedObject.hpp"
 #include "scripting/GuardedList.hpp"
+#include "resources/XmlResource.hpp"
 #include <string>
 using namespace std;
 
 class GenericEvent;
-class DialogueNode : public GuardedObject {
+class DialogueNode : public XmlResource, public GuardedObject {
   public:
     //the DialogueNode will own the event
     DialogueNode(const string& npc, const string& player = "", GenericEvent* event = NULL);
@@ -26,6 +27,7 @@ class DialogueNode : public GuardedObject {
     GuardedList<DialogueNode> _children;
     GenericEvent* _event;
 };
+MAKE_XML_RESOURCE(DialogueNode)
 
 #endif
 
