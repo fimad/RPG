@@ -34,6 +34,14 @@ Condition
   =lua : string
   +allows() : boolean
 
+#a lua function that returns true depending on what is passed to it
+SpecificCondition<T>
+  ==AlwaysAllow
+  ==AlwaysDeny
+  =lua_function : string ?
+  +(string lua)
+  +allowedFor(T t*) : bool
+
 GuardedObject
   =condition : Condition
   +isAllowed() : boolean
@@ -151,7 +159,7 @@ GameState
   +step()
 
 #manages a game world, etc
-World
+World <: SavableObject
   =resources : ResourceManager
   =save : SaveProvider
   =currentMap
@@ -174,18 +182,51 @@ DiceRoll
   + +(Die) #appends a die to the list
   +roll()
 
+#an object that can save it's state
+SavableObject
+#another idea is to make it load from xml_node
+#that way you can store the entire save in an xml and file
+#parse it once, and pass the relevant bits to the things that need to be loaded
+  ++loadFromBuffer(char* c)
+  ++loadFromXmlNode(xml_node<>* node)
+  +saveToString() : string
+
 
 ##############################
 #         Character          #
 ##############################
 
 #can also be used as a differential for change in alignments present with various quests
-Alignment
+Alignment <: SavableObject
   =lawfulness : int
   =morality : int # negative is evil, positive is good
   +toString #writes as string representation
 
-Character <: Resource
+Attributes <: SavableObject
+  #enum of attributes
+  attributeName(attribute) : string
+  get(attribute) : string
+  addModifier(modifier) : void
+  removeModifier(modifier) : void
+  updateModifiers()
+
+Modifier <: SavableObject
+  =attribute : ?
+  =amount : int
+  =expires : int
+  =uses : int
+  +amount() : int
+  +attribute() : attribute
+  +amountFor(attribute) : int
+
+#Allow Tiles to have Modifiers as well
+#that would cover area effects
+#Make attributes query the current tile when calculating the final number for any attribute
+
+ALSO
+Levels??!?!?
+
+Character <: SavableObject
   =name : string
   =attributes : ?
   =hp : int
@@ -194,8 +235,11 @@ Character <: Resource
   =gfx_archtype : ?
   =facing : Tile
   =alignment : Alignment
+  =equipped : Item
   +step() : void
   +doMelee() : void
+  +doRanged(attack,target) : void
+  +doSpell(spell,target) : void
   +takeDamage(int dmg) : void
 
 Player <: Character
@@ -216,12 +260,54 @@ Item <: Resource
   +canWield() : bool
   +canWear() : bool
 
+Spell <: Resource
+  =name : string
+  =description : string
+  =effect : string
+  +getName() : string
+  +getDescription() : string
+  +cast(character caster, tile target) : int #returns mana drained
+
+#Q: How do you want to handle levels/classes/races?
+#A: That's a good question...
+
+#Q: How do you want to handle display and input?
+#I'd like display and input to be as separated from the game logic as possible.
+#A: Have a generic 
+#TextView class that manages a 2d array of characters and colors, provides an api for input
+#Abstract Renderer and Input classes. That way you can write an ncurses renderer/input and 
+#one for sfml as well without reinventing the gui wheel for both.
+
+#Q:
+#Spells that create things?
+#Spells that have saves
+#Spells that have running saves to ignore
+#Modifiers against specific things
+#A: Don't handle every last type of spell. Have a flexible modifier/attribute system
+#that can have use and/or time limits. Have tiles hold modifiers as well. The Lua function
+#will be given a tile. Supply them with helper fucntions to facilitate turning that into a
+#list of tiles, single object/character, etc. This covers timed/num/instant uses touch, ranged,
+#and area affects. That should be plenty.
+
+#Q: How do you save the current state of the map
+#Meaning:
+#npc's on the map, what they are holding, what if they are dead, etc
+#randomly spawned enemies
+#dropped item's etc
+#A: Separate the map and it's contents. A map contents class will manage
+#the contents of th world, items, npc's etc. If it is a subclass of SavableObject
+#it is trivial to extend it to be a Resource. Therefore have there be an
+#'initial contents' file along with the map that is only loaded while creating
+#the world for the first time. Every other time it will be loaded from the save file.
+
+
+#Doors?
 
 ##############################
 #            Map             #
 ##############################
 
-Map <: GuardedObject, Resource
+Map <: GuardedObject, Resource, SavableObject #the save to xml will only save 
   =tiles : ?<Tile>
   =parent : Map*
 

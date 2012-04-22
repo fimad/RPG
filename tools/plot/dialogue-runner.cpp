@@ -89,7 +89,8 @@ int main(int argc, char* argv[]){
 
   //load the dialogue
   char* buffer = readFile(argv[1]);
-  DialogueList* dialogueList = DialogueList::loadFromBuffer(Path("file"),buffer);
+  //DialogueList* dialogueList = DialogueList::loadFromBuffer(Path("file"),buffer);
+  DialogueList* dialogueList = XmlResource::load<DialogueList>(Path("file"),buffer);
   free(buffer);
 
   //Choose which root node to play

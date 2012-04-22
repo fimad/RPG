@@ -71,6 +71,7 @@ DialogueNode* xmlNode2DialogueNode(const Path& path, rapidxml::xml_node<>* node,
   return dnode;
 }
 
+/*
 DialogueList* DialogueList::loadFromBuffer(const Path& path, char* c_buffer){
   DialogueList* dialogue = new DialogueList();
   rapidxml::xml_document<> doc;
@@ -83,6 +84,9 @@ DialogueList* DialogueList::loadFromBuffer(const Path& path, char* c_buffer){
     raise(MalformedResourceException,path,"Malformed xml");
   }
   rapidxml::xml_node<>* node = doc.first_node();
+  */
+DEF_XML_RESOURCE_LOAD(DialogueList){
+  DialogueList* dialogue = new DialogueList();
 
   //make sure this actually looks like a dialogue list xml file
   if( strcmp(node->name(),"dialogue") ){

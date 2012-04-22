@@ -44,6 +44,8 @@ set(SRC
   src/resources/Path.cpp
   src/resources/Resource.hpp
   src/resources/Resource.cpp
+  src/resources/XmlResource.hpp
+  src/resources/XmlResource.cpp
   src/resources/ResourceDefs.hpp
   src/resources/ResourceDefs.cpp
   src/resources/ResourceManager.hpp
@@ -79,6 +81,7 @@ set(SRC
   src/plot/DialogueEvent.cpp
   src/plot/DialogueRunner.hpp
   src/plot/DialogueRunner.cpp
+
 )
 
 add_library(barrel-lib

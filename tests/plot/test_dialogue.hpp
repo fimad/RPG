@@ -81,7 +81,8 @@ class DialogueTestSuite : public CxxTest::TestSuite{
       memcpy(tmp,dialogue_xml.c_str(),dialogue_xml.size());
       tmp[dialogue_xml.size()] = 0;
 
-      dl = DialogueList::loadFromBuffer(Path("from memory"),tmp);
+      //dl = DialogueList::loadFromBuffer(Path("from memory"),tmp);
+      dl = XmlResource::load<DialogueList>(Path("from memory"),tmp);
       free(tmp);
 
       runner = new DialogueRunner(raiser,dl);
