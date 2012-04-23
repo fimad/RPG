@@ -82,6 +82,18 @@ set(SRC
   src/plot/DialogueRunner.hpp
   src/plot/DialogueRunner.cpp
 
+  src/character/Character.hpp
+  src/character/Character.cpp
+  src/character/Race.hpp
+  src/character/Race.cpp
+  src/character/CharacterClass.hpp
+  src/character/CharacterClass.cpp
+  src/character/Stats.hpp
+  src/character/Stats.cpp
+  src/character/Modifier.hpp
+  src/character/Modifier.cpp
+  src/character/ProxyModifier.hpp
+  src/character/ProxyModifier.cpp
 )
 
 add_library(barrel-lib

@@ -215,6 +215,7 @@ Modifier <: SavableObject
   =amount : int
   =expires : int
   =uses : int
+  =description : string # so the player can see a break down of their stats
   +amount() : int
   +attribute() : attribute
   +amountFor(attribute) : int
@@ -241,6 +242,9 @@ Character <: SavableObject
   +doRanged(attack,target) : void
   +doSpell(spell,target) : void
   +takeDamage(int dmg) : void
+  +useMana(int mana) : void
+  +addHP(int amt) : void
+  +addMP(int amt) : void
 
 Player <: Character
   +step() : void
@@ -269,7 +273,19 @@ Spell <: Resource
   +cast(character caster, tile target) : int #returns mana drained
 
 #Q: How do you want to handle levels/classes/races?
-#A: That's a good question...
+#A: Maybe have a subclass of modifier for levels, that gets updated when you level up.
+#Class class contains an array for each level, each array contains a modifier.
+#Modifiers can modify anything in Attributes.
+#Attributes contain more than just strength, ac, etc. Should also account for:
+#-skill points to spend
+#-allowed feats
+#-basically anything modifiable
+#Feats and "usable" Skills can both be implemented as an Action class
+#in game, present available Actions to the user as Feats. Add skill Action at creation time.
+#When saving classes level and races, just the path should be saved, and current level.
+#that way any modifications made to the resources is reflected in the character
+#likewise for items
+
 
 #Q: How do you want to handle display and input?
 #I'd like display and input to be as separated from the game logic as possible.
