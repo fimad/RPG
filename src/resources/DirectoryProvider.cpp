@@ -18,9 +18,8 @@ bool DirectoryProvider::provides(const Path& path){
   return !(!file);
 }
 
-char* DirectoryProvider::getBuffer(const Path& path){
-  string fullPath = rootDirectory+"/"+path.toString();
-  ifstream file(fullPath.c_str());
+char* DirectoryProvider::readFile(const string& path){
+  ifstream file(path.c_str());
 
   //for now, die if the full path doesn't exist
   if(!file)
@@ -43,6 +42,11 @@ char* DirectoryProvider::getBuffer(const Path& path){
   c_buffer[buffer.size()] = 0;
 
   return c_buffer;
+}
+
+char* DirectoryProvider::getBuffer(const Path& path){
+  string fullPath = rootDirectory+"/"+path.toString();
+  return readFile(fullPath);
 }
 
 void DirectoryProvider::putBuffer(const Path& path, string buffer){

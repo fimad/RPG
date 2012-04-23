@@ -9,6 +9,8 @@ class DirectoryProvider : public ResourceProvider {
     virtual bool provides(const Path& path);
     virtual char* getBuffer(const Path& path);
     virtual void putBuffer(const Path& path, string buffer);
+
+    static char* readFile(const string& path);
   private:
     string rootDirectory;
 };
