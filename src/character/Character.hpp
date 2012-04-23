@@ -22,6 +22,7 @@ class Stats;
 class CharacterClass;
 class Character : public XmlResource{
   public:
+    //The character will own the race, classes and stats supplied
     Character(const string& name, Race* race, CharacterClass* startingClass, Stats* initialStats = NULL);
     virtual ~Character();
     int getHP() const;

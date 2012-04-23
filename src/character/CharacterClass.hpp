@@ -25,6 +25,7 @@ class CharacterClass : public XmlResource{
     void setLevel(int level);
     void levelUp();
     bool canLevelUp();
+    int currentLevel();
     int maxLevel();
   private:
     string _name;

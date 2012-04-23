@@ -1,4 +1,5 @@
 #include "character/Race.hpp"
+#include "character/Modifier.hpp"
 
 Race::Race(const string& name, const string& description, Modifier* modifier)
   : _name(name)

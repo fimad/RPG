@@ -7,8 +7,8 @@ CharacterClass::CharacterClass(const string& name, const string& desc, const lis
   , _description(desc)
   , _modifiers(modifiers.begin(),modifiers.end())
 {
-  setLevel(level);
   _proxyModifier = new ProxyModifier(_name+" class modifier",_modifiers[_currentLevel-1]);
+  setLevel(level);
 }
 
 CharacterClass::~CharacterClass(){
@@ -32,6 +32,7 @@ Modifier* CharacterClass::getModifier() const{
 
 void CharacterClass::setLevel(int level){
   _currentLevel = max(1,min(level,maxLevel()));
+  _proxyModifier->setModifier(_modifiers[_currentLevel-1]);
 }
 
 void CharacterClass::levelUp(){
@@ -40,6 +41,10 @@ void CharacterClass::levelUp(){
 
 bool CharacterClass::canLevelUp(){
   return _currentLevel < maxLevel();
+}
+
+int CharacterClass::currentLevel(){
+  return _currentLevel;
 }
 
 int CharacterClass::maxLevel(){

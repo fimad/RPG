@@ -15,19 +15,19 @@ class Stats : public XmlResource{
   public:
     enum Stat{
       //6 Ability Scores, (the total score)
-        STRENGTH_SCORE = 0
-      , DEXTERITY_SCORE
-      , CONSTITUTION_SCORE
-      , INTELLIGENCE_SCORE
-      , WISDOM_SCORE
-      , CHARISMA_SCORE
+        STR = 0
+      , DEX
+      , CON
+      , INT
+      , WIS
+      , CHA
       //Ability modifiers (the modifier associated with the score)
-      , STRENGTH
-      , DEXTERITY
-      , CONSTITUTION
-      , INTELLIGENCE
-      , WISDOM
-      , CHARISMA
+      , STR_MOD
+      , DEX_MOD
+      , CON_MOD
+      , INT_MOD
+      , WIS_MOD
+      , CHA_MOD
       //Saving Throws
       , FORTITUDE
       , REFLEX
@@ -38,7 +38,10 @@ class Stats : public XmlResource{
       , HP_PER_SEC
       , MP_PER_SEC
       , ARMOR_CLASS
-      , BASE_ATTACK_BONUS
+      , ARMOR_CLASS_FLAT
+      , ARMOR_CLASS_TOUCH
+      , ATTACK_BONUS
+      , RANGED_ATTACK_BONUS
       , SPEED
       //Skills
       //NUM_STATS should always be last
@@ -60,6 +63,8 @@ class Stats : public XmlResource{
 
     static int __getBaseStat(const Stats* stats, Stat stat);
     static int __getAbilityStat(const Stats* stats, Stat stat); //calcs for strength, etc
+    template <Stat>
+    static int __dependentStat(const Stats* stats, Stat stat);
     static int (* _calcStats[])(const Stats*,Stat);
     static string _statToString[];
     //TODO: _stringToStat

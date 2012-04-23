@@ -1,11 +1,18 @@
 #include "character/Stats.hpp"
 #include "character/Modifier.hpp"
 
+//TODO:Add more stats and their corresponding calculators
+
 int Stats::__getBaseStat(const Stats* stats, Stat stat){
   return stats->_baseStats[stat];
 }
 int Stats::__getAbilityStat(const Stats* stats, Stat stat){
-  return (stats->getStat((Stat)(stat-6))-10)/2;
+  int base = stats->getStat((Stat)(stat-6));
+  return (base >= 10) ? (base-10)/2 : (base-11)/2;
+}
+template <Stats::Stat dstat>
+int Stats::__dependentStat(const Stats* stats, Stat stat){
+  return stats->_baseStats[stat]+stats->getStat(dstat);
 }
 
 int(* Stats::_calcStats[])(const Stats*, Stats::Stat) = {
@@ -23,20 +30,23 @@ int(* Stats::_calcStats[])(const Stats*, Stats::Stat) = {
   , &Stats::__getAbilityStat
   , &Stats::__getAbilityStat
   //Saving Throws
-  , &Stats::__getBaseStat
-  , &Stats::__getBaseStat
-  , &Stats::__getBaseStat
+  , &Stats::__dependentStat<CON_MOD> //fort
+  , &Stats::__dependentStat<DEX_MOD> //reflex
+  , &Stats::__dependentStat<WIS_MOD> //will
   //Misc Attributes
   , &Stats::__getBaseStat
   , &Stats::__getBaseStat
   , &Stats::__getBaseStat
   , &Stats::__getBaseStat
-  , &Stats::__getBaseStat
-  , &Stats::__getBaseStat
-  , &Stats::__getBaseStat
+  , &Stats::__getBaseStat //Armor Class
+  , &Stats::__getBaseStat //Armor Class flat footed
+  , &Stats::__getBaseStat //Armor Class touch
+  , &Stats::__getBaseStat //Attack Bonus
+  , &Stats::__getBaseStat //Ranged Attack Bonus
+  , &Stats::__getBaseStat //Speed
 };
 
-string _statToString[] = {
+string Stats::_statToString[] = {
   //Ability scores
     "strength"
   , "dexterity"
@@ -61,7 +71,10 @@ string _statToString[] = {
   , "regained HP per second"
   , "regained MP per second"
   , "armor class"
-  , "base attack bonus"
+  , "armor class (flat footed)"
+  , "armor class (touch)"
+  , "attack bonus"
+  , "ranged attack bonus"
   , "speed"
 };
 

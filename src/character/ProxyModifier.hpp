@@ -7,6 +7,7 @@ class ProxyModifier : public Modifier {
   public:
     ProxyModifier(const string& description, Modifier* modifier);
     virtual int valueFor(Stats::Stat stat);
+    void setModifier(Modifier* modifier);
   private:
     Modifier* _modifier;
 };
