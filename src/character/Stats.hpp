@@ -57,6 +57,7 @@ class Stats : public XmlResource{
     void removeModifier(Modifier* modifier);
 
     static const string& getString(Stat stat);
+    static bool getStatForString(const string& str, Stat* stat);
   private:
     int _baseStats[NUM_STATS];
     list<Modifier*> _modifiers;
@@ -67,8 +68,7 @@ class Stats : public XmlResource{
     static int __dependentStat(const Stats* stats, Stat stat);
     static int (* _calcStats[])(const Stats*,Stat);
     static string _statToString[];
-    //TODO: _stringToStat
-//    static map<string,Stat> _stringToStat;
+    static map<string,Stat> _stringToStat;
 };
 MAKE_XML_RESOURCE(Stats)
 

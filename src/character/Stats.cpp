@@ -46,6 +46,45 @@ int(* Stats::_calcStats[])(const Stats*, Stats::Stat) = {
   , &Stats::__getBaseStat //Speed
 };
 
+bool Stats::getStatForString(const string& str, Stat* stat){
+  if( _stringToStat.count(str) == 0 ){
+    return false;
+  }else{
+    *stat = _stringToStat[str];
+    return true;
+  }
+}
+map<string,Stats::Stat> Stats::_stringToStat{
+    {"str", Stats::STR}
+  , {"dex", Stats::DEX}
+  , {"con", Stats::CON}
+  , {"int", Stats::INT}
+  , {"wis", Stats::WIS}
+  , {"cha", Stats::CHA}
+  //Ability modifiers (the modifier associated with the score)
+  , {"str_mod", Stats::STR_MOD}
+  , {"dex_mod", Stats::DEX_MOD}
+  , {"con_mod", Stats::CON_MOD}
+  , {"int_mod", Stats::INT_MOD}
+  , {"wis_mod", Stats::WIS_MOD}
+  , {"cha_mod", Stats::CHA_MOD}
+  //Saving Throws
+  , {"fortitude", Stats::FORTITUDE}
+  , {"reflex", Stats::REFLEX}
+  , {"will", Stats::WILL}
+  //Misc Attributes
+  , {"hp", Stats::MAX_HP}
+  , {"mp", Stats::MAX_MP}
+  , {"hp_regen", Stats::HP_PER_SEC}
+  , {"mp_regen", Stats::MP_PER_SEC}
+  , {"ac", Stats::ARMOR_CLASS}
+  , {"ac_flat", Stats::ARMOR_CLASS_FLAT}
+  , {"ac_touch", Stats::ARMOR_CLASS_TOUCH}
+  , {"attack", Stats::ATTACK_BONUS}
+  , {"ranged_attack", Stats::RANGED_ATTACK_BONUS}
+  , {"speed", Stats::SPEED}
+};
+
 string Stats::_statToString[] = {
   //Ability scores
     "strength"

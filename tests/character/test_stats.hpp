@@ -44,5 +44,11 @@ class StatsTestSuite : public CxxTest::TestSuite{
       TS_ASSERT_EQUALS(stats->getStat(Stats::STR_MOD), -1);
     }
 
+    void test_string_to_stat(){
+      Stats::Stat stat;
+      TS_ASSERT( Stats::getStatForString("dex",&stat) );
+      TS_ASSERT_EQUALS( stat, Stats::DEX );
+    }
+
 };
 

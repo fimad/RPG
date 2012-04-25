@@ -1,0 +1,5 @@
+<modifier>
+  <description>
+  <stat name="str_mod" value="1" />
+  <stat name="cha_mod" value="-1" />
+</modifier>

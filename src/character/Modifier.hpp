@@ -12,6 +12,7 @@ class Modifier : public XmlResource{
     virtual ~Modifier();
     virtual int valueFor(Stats::Stat stat);
     void setValueFor(Stats::Stat stat, int value);
+    void setDescription(const string& desc);
     const string& getDescription() const;
   private:
     string _description;
