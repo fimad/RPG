@@ -1,6 +1,7 @@
 #include <cxxtest/TestSuite.h>
 #include "character/Modifier.hpp"
 #include "character/ProxyModifier.hpp"
+#include "resources/DirectoryProvider.hpp"
 
 class ModifiersTestSuite : public CxxTest::TestSuite{
   private:
@@ -43,6 +44,19 @@ class ModifiersTestSuite : public CxxTest::TestSuite{
       pm->setModifier(m2);
       TS_ASSERT_EQUALS(pm->valueFor(Stats::STR_MOD), 0)
       TS_ASSERT_EQUALS(pm->valueFor(Stats::CON_MOD), 1)
+    }
+
+    void test_xml_load(){
+      //load the xml file
+      string xmlPath = "../../tests/character/test_modifiers.xml";
+      char* xml = DirectoryProvider::readFile(xmlPath);
+      Modifier* m = XmlResource::load<Modifier>(Path("test_modifiers.xml"),xml);
+      free(xml);
+
+      //test it
+      TS_ASSERT_EQUALS(m->valueFor(Stats::STR_MOD), 1);
+      TS_ASSERT_EQUALS(m->valueFor(Stats::CHA_MOD), -1);
+      TS_ASSERT_EQUALS(m->valueFor(Stats::DEX_MOD), 0);
     }
 };
 
