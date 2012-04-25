@@ -1,6 +1,7 @@
 #include <cxxtest/TestSuite.h>
 #include "character/Stats.hpp"
 #include "character/Modifier.hpp"
+#include "resources/DirectoryProvider.hpp"
 
 class StatsTestSuite : public CxxTest::TestSuite{
   private:
@@ -48,6 +49,19 @@ class StatsTestSuite : public CxxTest::TestSuite{
       Stats::Stat stat;
       TS_ASSERT( Stats::getStatForString("dex",&stat) );
       TS_ASSERT_EQUALS( stat, Stats::DEX );
+    }
+
+    void test_xml_load(){
+      //load the xml file
+      string xmlPath = "../../tests/character/test_stats.xml";
+      char* xml = DirectoryProvider::readFile(xmlPath);
+      Stats* s = XmlResource::load<Stats>(Path("test_stats.xml"),xml);
+      free(xml);
+
+      //test it
+      TS_ASSERT_EQUALS(s->getStat(Stats::STR), 8);
+      TS_ASSERT_EQUALS(s->getStat(Stats::CHA), 14);
+      TS_ASSERT_EQUALS(s->getStat(Stats::DEX), 9);
     }
 
 };

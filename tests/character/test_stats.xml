@@ -1,0 +1,8 @@
+<stats>
+  <stat name="str" value="8" />
+  <stat name="dex" value="9" />
+  <stat name="con" value="10" />
+  <stat name="int" value="11" />
+  <stat name="wis" value="12" />
+  <stat name="cha" value="14" />
+</stats>

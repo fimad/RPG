@@ -58,6 +58,8 @@ class Stats : public XmlResource{
 
     static const string& getString(Stat stat);
     static bool getStatForString(const string& str, Stat* stat);
+
+    friend class XmlResource;
   private:
     int _baseStats[NUM_STATS];
     list<Modifier*> _modifiers;

@@ -1,5 +1,8 @@
 #include "character/Stats.hpp"
 #include "character/Modifier.hpp"
+#include <cstring>
+#include <tuple>
+#include <list>
 
 //TODO:Add more stats and their corresponding calculators
 
@@ -152,8 +155,43 @@ void Stats::removeModifier(Modifier* modifier){
   _modifiers.remove(modifier);
 }
 
-//TODO: load xml for Stats
 DEF_XML_RESOURCE_LOAD(Stats){
-  return NULL;
+  if( strcmp(node->name(),"stats") != 0 )
+    raise(MalformedResourceException,path,string("Expected 'stats' node but found '")+node->name()+"'.");
+
+  list<tuple<Stats::Stat,int>> statsAndValues;
+  for(XmlNode* child = node->first_node(); child; child = child->next_sibling()){
+    //skip non stat nodes
+    if( strcmp(node->name(),"stat") != 0 ){
+      string name = "";
+      string value = "";
+      for(XmlAttribute* attr = child->first_attribute(); attr; attr = attr->next_attribute()){
+        if( strcmp(attr->name(), "name") == 0 ){
+          name = attr->value(); 
+        }else if( strcmp(attr->name(), "value") == 0 ){
+          value = attr->value(); 
+        }
+      }
+
+      Stats::Stat stat;
+      //sanity checks
+      if( name == "" )
+        raise(MalformedResourceException,path,string("'name' attribute required in 'stat' node"));
+      if( value == "" )
+        raise(MalformedResourceException,path,string("'value' attribute required in 'stat' node"));
+      if( !Stats::getStatForString(name,&stat) ) //also fill in the correct value for stat
+        raise(MalformedResourceException,path,string("Invalide stat '"+name+"'"));
+
+      //save the value for later
+      statsAndValues.push_back(make_tuple(stat,atoi(value.c_str())));
+    }
+  }//exited loop = no errors
+
+  Stats* stats = new Stats();
+  for( auto t : statsAndValues ){
+    stats->_baseStats[get<0>(t)] = get<1>(t);
+  }
+  
+  return stats;
 }
 
