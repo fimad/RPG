@@ -1,0 +1,27 @@
+<class>
+  <name>Test Class</name>
+  <description>
+  This is a description of the test class.
+  </description>
+  <levels>
+
+    <level>
+      <modifier>
+        <stat name="attack" value="1" />
+      </modifier>
+    </level>
+
+    <level>
+      <modifier>
+        <stat name="attack" value="2" />
+      </modifier>
+    </level>
+
+    <level>
+      <modifier>
+        <stat name="attack" value="3" />
+      </modifier>
+    </level>
+
+  </levels>
+</class>

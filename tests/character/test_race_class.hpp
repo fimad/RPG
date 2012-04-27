@@ -2,6 +2,7 @@
 #include "character/Race.hpp"
 #include "character/Modifier.hpp"
 #include "character/CharacterClass.hpp"
+#include "resources/DirectoryProvider.hpp"
 
 class RaceClassTestSuite : public CxxTest::TestSuite{
   private:
@@ -54,6 +55,37 @@ class RaceClassTestSuite : public CxxTest::TestSuite{
       TS_ASSERT_EQUALS(charClass->canLevelUp(), false);
       TS_ASSERT_EQUALS(charClass->currentLevel(), 3);
       TS_ASSERT_EQUALS(charClass->getModifier()->valueFor(Stats::STR_MOD), 3);
+    }
+
+    void test_race_xml_load(){
+      string xmlPath = "../../tests/character/test_race.xml";
+      char* xml = DirectoryProvider::readFile(xmlPath);
+      Race* r = XmlResource::load<Race>(Path("test_race.xml"),xml);
+      free(xml);
+
+      TS_ASSERT_EQUALS( r->getName(), "Test Race" );
+      TS_ASSERT_EQUALS( r->getDescription(), "This is a description of the test race." );
+      TS_ASSERT_EQUALS( r->getModifier()->valueFor(Stats::STR), 2 );
+      TS_ASSERT_EQUALS( r->getModifier()->valueFor(Stats::CHA), -2 );
+    }
+
+    void test_class_xml_load(){
+      string xmlPath = "../../tests/character/test_class.xml";
+      char* xml = DirectoryProvider::readFile(xmlPath);
+      CharacterClass* c = XmlResource::load<CharacterClass>(Path("test_class.xml"),xml);
+      free(xml);
+
+      TS_ASSERT_EQUALS( c->getName(), "Test Class" );
+      TS_ASSERT_EQUALS( c->getDescription(), "This is a description of the test class." );
+      TS_ASSERT_EQUALS( c->getModifier()->valueFor(Stats::ATTACK_BONUS), 1 );
+      TS_ASSERT_EQUALS( c->maxLevel(), 3 );
+
+      c->levelUp();
+      TS_ASSERT_EQUALS( c->getModifier()->valueFor(Stats::ATTACK_BONUS), 2 );
+      c->levelUp();
+      TS_ASSERT_EQUALS( c->getModifier()->valueFor(Stats::ATTACK_BONUS), 3 );
+      c->levelUp();
+      TS_ASSERT_EQUALS( c->getModifier()->valueFor(Stats::ATTACK_BONUS), 3 );
     }
 };
 

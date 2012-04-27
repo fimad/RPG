@@ -7,7 +7,7 @@ class Stats;
 class Modifier;
 class Race : public XmlResource{
   public:
-    Race(const string& name, const string& description, Modifier* modifiers);
+    Race(const string& name, const string& description, Modifier* modifier);
     ~Race();
     Modifier* getModifier() const;
     const string& getName() const;

@@ -1,0 +1,10 @@
+<race>
+  <name>Test Race</name>
+  <description>
+  This is a description of the test race.
+  </description>
+  <modifier>
+    <stat name="str" value="2" />
+    <stat name="cha" value="-2" />
+  </modifier>
+</race>

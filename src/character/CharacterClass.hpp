@@ -10,6 +10,8 @@ using namespace std;
 TODO:
 Requires specific conditions:
   -conditional classes, ie. prestige classes with requirements
+Requires actions:
+  -class feats
 */
 
 class Stats;
