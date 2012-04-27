@@ -4,6 +4,8 @@
 #include "character/Modifier.hpp"
 #include "character/Character.hpp"
 #include "character/CharacterClass.hpp"
+#include "resources/ResourceManager.hpp"
+#include "resources/DirectoryProvider.hpp"
 
 class CharacterTestSuite : public CxxTest::TestSuite{
   private:
@@ -35,5 +37,25 @@ class CharacterTestSuite : public CxxTest::TestSuite{
       TS_ASSERT_EQUALS(character->getStats()->getStat(Stats::STR_MOD), 1);
     }
 
+    void test_xml_load(){
+      ResourceManager* rman = new ResourceManager();
+      rman->addProvider(new DirectoryProvider("../../"));
+
+      //load the xml file
+      string xmlPath = "tests/character/test_character.xml";
+      Character*c = rman->loadResource<Character>(Path(xmlPath));
+
+      //test it
+      TS_ASSERT_EQUALS(c->getName(), "My Name");
+      TS_ASSERT_EQUALS(c->getRace()->getName(), "Test Race");
+      TS_ASSERT_EQUALS(c->getClasses().front()->getName(), "Test Class");
+      TS_ASSERT_EQUALS(c->getClasses().front()->currentLevel(), 2);
+      TS_ASSERT_EQUALS(c->getHP(), 10);
+      TS_ASSERT_EQUALS(c->getMP(), 11);
+      TS_ASSERT_EQUALS(c->getExp(), 12);
+      TS_ASSERT_EQUALS(c->getStats()->getStat(Stats::STR), 10);
+
+      delete rman;
+    }
 };
 

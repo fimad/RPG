@@ -16,14 +16,14 @@ typedef rapidxml::xml_document<> XmlDoc;
 
 //Macros that make it "easy" to make new XmlResources
 #define MAKE_XML_RESOURCE(className) \
-template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node); \
-template <> class className* Resource::load<className>(const Path& path,char* buffer);
+template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node,ResourceManager* manager); \
+template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager);
 
 #define DEF_XML_RESOURCE_LOAD(className) \
-template <> class className* Resource::load<className>(const Path& path,char* buffer){ \
-  return XmlResource::load<className>(path,buffer); \
+template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager){ \
+  return XmlResource::load<className>(path,buffer,manager); \
 } \
-template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node)
+template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node,ResourceManager* manager)
 
 class XmlResource : public Resource{
   public:
@@ -32,10 +32,10 @@ class XmlResource : public Resource{
 
     //All deriving XmlResources, must provide a specialization for this function
     template<class T>
-    static T* load(const Path& path, XmlNode* node);
+    static T* load(const Path& path, XmlNode* node, ResourceManager* manager=NULL);
 
     template<class T>
-    static T* load(const Path& path, char* xml_text){
+    static T* load(const Path& path, char* xml_text, ResourceManager* manager=NULL){
       rapidxml::xml_document<> doc;
       try{
         doc.parse<
@@ -46,7 +46,7 @@ class XmlResource : public Resource{
         raise(MalformedResourceException,path,"Malformed xml");
       }
       XmlNode* node = doc.first_node();
-      return load<T>(path,node);
+      return load<T>(path,node,manager);
     }
 };
 

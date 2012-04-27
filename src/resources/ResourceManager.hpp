@@ -20,15 +20,15 @@ class ResourceManager{
     template<class T>
     T* loadResource(const Path& path){
       //hacks to get semi reasonable error messages when passing in non-compliant types
-      Resource* not_subclass_of_Resource = (T*)0; //error if we pass something that is not a resource
+//      Resource* not_subclass_of_Resource = (T*)0; //error if we pass something that is not a resource
 
       for(auto i = providers.begin(); i!=providers.end(); i++){
         if((*i)->provides(path)){
           char* buffer = (*i)->getBuffer(path);
-          T* resource = Resource::load<T>(path,buffer);
+          T* resource = Resource::load<T>(path,buffer,this);
           free(buffer);
-          resource->manager = this;
-          resource->path = path;
+          resource->_manager = this;
+          resource->_path = path;
           return resource;
         }
       }

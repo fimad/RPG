@@ -1,0 +1,16 @@
+<character>
+  <name>My Name</name>
+  <race>tests/character/test_race.xml</race>
+  <class level="2">tests/character/test_class.xml</class>
+  <hp>10</hp>
+  <mp>11</mp>
+  <exp>12</exp>
+  <stats>
+    <stat name="str" value="8" />
+    <stat name="dex" value="9" />
+    <stat name="con" value="10" />
+    <stat name="int" value="11" />
+    <stat name="wis" value="12" />
+    <stat name="cha" value="14" />
+  </stats>
+</character>

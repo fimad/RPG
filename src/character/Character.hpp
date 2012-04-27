@@ -24,18 +24,26 @@ class Character : public XmlResource{
   public:
     //The character will own the race, classes and stats supplied
     Character(const string& name, Race* race, CharacterClass* startingClass, Stats* initialStats = NULL);
+    Character(const string& name, Race* race, list<CharacterClass*> classes, Stats* initialStats = NULL);
     virtual ~Character();
     int getHP() const;
     int getMP() const;
     int getExp() const;
+    const string& getName() const;
     void takeDamage(int amount);
     void useMP(int amount);
     void addHP(int amount);
     void addMP(int amount);
     void addExp(int amount);
+    void setHP(int amount);
+    void setMP(int amount);
+    void setExp(int amount);
     void fillHP();
     void fillMP();
+    void addClass(CharacterClass* cclass);
     Stats* getStats();
+    Race* getRace();
+    const list<CharacterClass*>& getClasses();
     virtual void step(double delta);
   private:
     int _hp;

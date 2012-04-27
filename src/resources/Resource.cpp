@@ -1,12 +1,16 @@
 #include "resources/Resource.hpp"
 
-Resource::Resource() : path(Path::Any){
-  manager = NULL;
+Resource::Resource() : _path(Path::Any){
+  _manager = NULL;
 }
 
 Resource::~Resource(){
 }
 
 const Path& Resource::getPath(){
-  return path;
+  return _path;
+}
+
+ResourceManager* Resource::getManager() const{
+  return _manager;
 }

@@ -33,8 +33,10 @@ string InvalidPathComponentException::description() const throw(){
 }
 
 //MalformedResourceException
-MalformedResourceException::MalformedResourceException(const Path& path, const string& details) : _path(path){
-  _details = details;
+MalformedResourceException::MalformedResourceException(const Path& path, const string& details)
+  : _path(path)
+  , _details(details)
+{
 }
 
 MalformedResourceException::~MalformedResourceException() throw(){}

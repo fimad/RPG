@@ -8,10 +8,10 @@ using namespace std;
 
 //Macros that make it "easy" to make new Resources
 #define MAKE_RESOURCE(className) \
-template <> class className* Resource::load<className>(const Path& path,char* buffer);
+template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager);
 
 #define DEF_RESOURCE_LOAD(className) \
-template <> class className* Resource::load<className>(const Path& path,char* buffer)
+template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager)
 
 class ResourceManager;
 class Resource : public EventRaiser{
@@ -19,16 +19,17 @@ class Resource : public EventRaiser{
     Resource();
     virtual ~Resource();
     const Path& getPath();
+    ResourceManager* getManager() const;
     //virtual string saveToBuffer() = 0; //on second thought, I don't think I need this
 
     //All Resources must provide a specialization for this function
     template<class T>
-    static T* load(const Path& path, char* node);
+    static T* load(const Path& path, char* buffer, ResourceManager* manager=NULL);
 
     friend class ResourceManager;
   private:
-    ResourceManager* manager;
-    Path path;
+    ResourceManager* _manager;
+    Path _path;
 };
 
 #endif
