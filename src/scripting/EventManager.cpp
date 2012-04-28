@@ -1,5 +1,6 @@
 #include "scripting/EventManager.hpp"
 #include "scripting/EventHandler.hpp"
+#include "scripting/GenericEvent.hpp"
 
 EventManager* EventManager::instance = NULL;
 

@@ -27,6 +27,8 @@ Character::Character(const string& name, Race* race, CharacterClass* startingCla
   //fill the hp and mp to max
   fillHP();
   fillMP();
+
+  _tile = NULL;
 }
 
 Character::Character(const string& name, Race* race, list<CharacterClass*> classes, Stats* initialStats)
@@ -50,6 +52,8 @@ Character::Character(const string& name, Race* race, list<CharacterClass*> class
   //fill the hp and mp to max
   fillHP();
   fillMP();
+
+  _tile = NULL;
 }
 
 Character::~Character(){
@@ -126,6 +130,14 @@ void Character::fillMP(){
   _mp = _stats->getStat(Stats::MAX_MP);
 }
 
+void Character::setTile(Tile* tile){
+  _tile = tile;
+}
+
+Tile* Character::getTile(){
+  return _tile;
+}
+
 Stats* Character::getStats(){
   return _stats;
 }
@@ -142,7 +154,6 @@ void Character::addClass(CharacterClass* cclass){
   _classes.push_back(cclass);
 }
 
-//TODO:load from xml...
 DEF_XML_RESOURCE_LOAD(Character){
   if( strcmp(node->name(),"character") != 0 )
     raise(MalformedResourceException,path,string("Expected 'character' node but found '")+node->name()+"'.");

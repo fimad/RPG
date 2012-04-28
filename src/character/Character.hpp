@@ -17,6 +17,7 @@ Requires Items:
 -Feats/Actions
  */
 
+class Tile;
 class Race;
 class Stats;
 class CharacterClass;
@@ -41,6 +42,8 @@ class Character : public XmlResource{
     void fillHP();
     void fillMP();
     void addClass(CharacterClass* cclass);
+    void setTile(Tile* tile);
+    Tile* getTile();
     Stats* getStats();
     Race* getRace();
     const list<CharacterClass*>& getClasses();
@@ -49,10 +52,11 @@ class Character : public XmlResource{
     int _hp;
     int _mp;
     int _exp;
+    Tile* _tile;
+    Race* _race;
     string _name;
     Stats* _stats;
     list<CharacterClass*> _classes;
-    Race* _race;
 };
 MAKE_XML_RESOURCE(Character)
 

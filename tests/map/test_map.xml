@@ -1,0 +1,8 @@
+<map width="2" height="2">
+  <tiles>
+    <tile submap="tests/map/test_sub_map.xml" symbol="_" /> <!--0,0-->
+    <tile walkable="false" symbol="#" /> <!--1,0-->
+    <tile symbol="." /> <!--0,1-->
+    <tile symbol="." event="TRAP" /> <!--1,1-->
+  </tiles>
+</map>

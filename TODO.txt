@@ -1,0 +1,38 @@
+Coding
+  Map
+  World
+  Dice Rolling
+  Items
+  Spells
+  Quests
+  Game System
+    Game State
+    Abstract Viewers, etc
+    Player, NPC?
+  TextMode implementation
+  Specific Conditions
+  expose api to lua
+
+Make Tools
+  Map Editor (Maybe just needed for graphics version?)
+  Dialogue Editor
+
+Make content :)
+  Classes
+  Races
+  Items
+  Spells
+  Quests
+
+In Code
+  ./src/character/Character.cpp://TODO: handle death, raise an event. Not sure what else. Maybe just that. 
+  ./src/character/Character.cpp://TODO: events for leveling up?
+  ./src/character/Character.cpp:  //TODO: if you have regen < 1 per sec, you won't regain any. Fix this.
+  ./src/character/Race.cpp://TODO:when attribute api is decided, fill this in
+  ./src/character/Character.hpp:TODO:
+  ./src/character/CharacterClass.hpp:TODO:
+  ./src/character/Stats.cpp://TODO:Add more stats and their corresponding calculators
+  ./src/resources/ResourceManager.cpp:  //TODO:actually preload resources
+  ./src/resources/ResourceManager.hpp:    //TODO: add cacheing
+  ./src/scripting/LuaWrapper.hpp:    //TODO: implement error reporting
+  ./src/scripting/LuaWrapper.hpp:    //TODO: better error handling for when the lua environment is not setup

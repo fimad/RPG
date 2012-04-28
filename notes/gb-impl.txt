@@ -325,6 +325,8 @@ Spell <: Resource
 
 Map <: GuardedObject, Resource, SavableObject #the save to xml will only save 
   =tiles : ?<Tile>
+  =npcs : list<NPC>
+  =items : items
   =parent : Map*
 
 Tile <: Resource
@@ -333,9 +335,13 @@ Tile <: Resource
   =occupant : Character
   =items : list<item>
   =walkable : bool
+  =map : Map
   +subMaps : GuardedList<Map>
   +removeOccupant() : void
   +placeOccupant(Character char) : bool # returns false if not possible
+  +tileInDirection(Direction)
+
+#For walking Animations, the character will appear in both tiles at the same time until the animation finishes
 
 
 ##############################
