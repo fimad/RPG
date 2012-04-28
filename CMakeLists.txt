@@ -45,8 +45,6 @@ set(SRC
   src/resources/Path.cpp
   src/resources/Resource.hpp
   src/resources/Resource.cpp
-#  src/resources/XmlReader.hpp
-#  src/resources/XmlReader.cpp
   src/resources/XmlResource.hpp
   src/resources/XmlResource.cpp
   src/resources/ResourceDefs.hpp
@@ -105,6 +103,8 @@ set(SRC
   src/map/TileEvent.hpp
   src/map/TileEvent.cpp
   src/map/Direction.hpp
+  src/map/MapContents.hpp
+  src/map/MapContents.cpp
 )
 
 add_library(barrel-lib

@@ -167,6 +167,8 @@ World <: SavableObject
   +setSave(SaveProvider save) : void
   +saveGame() : void
   +loadGame() : void
+  +step(delta) : void
+  +moveCharacter(Character* c, Direction) : bool
 
 Die
   ==dN : map<int,Die>

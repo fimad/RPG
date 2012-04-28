@@ -39,7 +39,7 @@ Path::~Path(){
 
 void Path::operator=(const Path& path){
   name = path.name;
-  isAny = true;
+  isAny = path.isAny;
 
   //reuse any children we have, create new if needed, and delete the leftovers
   if( path.child && child ){

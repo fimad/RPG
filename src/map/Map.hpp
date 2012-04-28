@@ -24,6 +24,8 @@ class Map : public XmlResource, public GuardedObject{
     bool isValidLocation(int x, int y) const;
     void removeCharacter(Character* c);
     bool addCharacterAt(int x, int y, Character* c);
+    void setContentsPath(const Path& path);
+    void loadContents();
 
     friend class XmlResource;
   private:
@@ -31,7 +33,8 @@ class Map : public XmlResource, public GuardedObject{
     int _height;
     Tile** _tiles;
     Tile* _parent;
-    //Path _initialConfig; //TODO: initial configurations for maps
+    bool _haveContents; //has _contents been set?
+    Path _contents; //TODO: initial configurations for maps
     set<Character*> _npcs;
 };
 MAKE_XML_RESOURCE(Map)

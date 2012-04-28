@@ -1,5 +1,5 @@
 Coding
-  Map
+  Map Contents
   World
   Dice Rolling
   Items
@@ -8,7 +8,7 @@ Coding
   Game System
     Game State
     Abstract Viewers, etc
-    Player, NPC?
+    Player, NPC? (There could be no distinction, if there is a "controller" class that can be either a controller or an ai thinker)
   TextMode implementation
   Specific Conditions
   expose api to lua
@@ -36,3 +36,5 @@ In Code
   ./src/resources/ResourceManager.hpp:    //TODO: add cacheing
   ./src/scripting/LuaWrapper.hpp:    //TODO: implement error reporting
   ./src/scripting/LuaWrapper.hpp:    //TODO: better error handling for when the lua environment is not setup
+  ./src/map/Map.hpp://TODO:maps should also track items
+  ./src/map/Map.hpp:    //Path _initialConfig; //TODO: initial configurations for maps

@@ -1,6 +1,8 @@
 #include "map/Map.hpp"
 #include "map/Tile.hpp"
+#include "map/MapContents.hpp"
 #include "character/Character.hpp"
+#include "resources/ResourceManager.hpp"
 #include <cstdlib>
 #include <cstring>
 
@@ -8,8 +10,10 @@ Map::Map(int width, int height, Tile* parent)
   : _width(width)
   , _height(height)
   , _parent(parent)
+  , _contents(Path::Any)
 {
   _tiles = (Tile**)calloc(width*height,sizeof(Tile*));
+  _haveContents = false;
 }
 
 Map::~Map(){
@@ -67,6 +71,29 @@ bool Map::addCharacterAt(int x, int y, Character* c){
   return false;
 }
 
+void Map::setContentsPath(const Path& path){
+  _haveContents = true;
+  _contents = path;
+}
+
+void Map::loadContents(){
+  if( _haveContents ){
+    MapContents* mc = getManager()->loadResource<MapContents>(_contents);
+    mc->fill(this);
+    delete mc;
+  }
+
+  //load all of the sub maps contents if they have them as well
+  for(int y=0; y<_height; y++){
+    for(int x=0; x<_width; x++){
+      Tile* t = tileAt(x,y);
+      if( t->isPortal() ){
+        t->getSubMap()->loadContents();
+      }
+    }
+  }
+}
+
 DEF_XML_RESOURCE_LOAD(Map){
   if( strcmp(node->name(),"map") != 0 )
     raise(MalformedResourceException,path,string("Expected 'map' node but found '")+node->name()+"'.");
@@ -74,12 +101,15 @@ DEF_XML_RESOURCE_LOAD(Map){
   //value loading loop
   int width=0;
   int height=0;
+  string contents="";
   XmlNode* tiles=NULL;
   for(XmlAttribute* attr = node->first_attribute(); attr; attr = attr->next_attribute()){
     if( strcmp(attr->name(),"width")==0 ){
       width = atoi(attr->value());
     }else if( strcmp(attr->name(),"height")==0 ){
       height = atoi(attr->value());
+    }else if( strcmp(attr->name(),"contents")==0 ){
+      contents = attr->value();
     }
   }
   for(XmlNode* child = node->first_node(); child; child = child->next_sibling()){
@@ -97,6 +127,9 @@ DEF_XML_RESOURCE_LOAD(Map){
     raise(MalformedResourceException,path,"'tiles' node required for map.");
 
   Map* map = new Map(width,height);
+  if( contents!="" ){
+    map->setContentsPath(Path(contents));
+  }
 
   //load each tile
   int x,y;

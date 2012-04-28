@@ -1,4 +1,4 @@
-<map width="2" height="2">
+<map width="2" height="2" contents="tests/map/test_map_contents.xml">
   <tiles>
     <tile submap="tests/map/test_sub_map.xml" symbol="_" /> <!--0,0-->
     <tile walkable="false" symbol="#" /> <!--1,0-->

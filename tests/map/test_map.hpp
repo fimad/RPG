@@ -15,13 +15,14 @@ class MapTestSuite : public CxxTest::TestSuite{
     Map* map;
     Character* c;
     DummyHandler* handler;
+    ResourceManager* rman;
   public:
     void setUp(){
-      ResourceManager rman;
-      rman.addProvider(new DirectoryProvider("../../"));
+      rman = new ResourceManager();
+      rman->addProvider(new DirectoryProvider("../../"));
 
-      map = rman.loadResource<Map>(Path("tests/map/test_map.xml"));
-      c = rman.loadResource<Character>(Path("tests/character/test_character.xml"));
+      map = rman->loadResource<Map>(Path("tests/map/test_map.xml"));
+      c = rman->loadResource<Character>(Path("tests/character/test_character.xml"));
 
       handler = new DummyHandler(new TileEvent(NULL,"TRAP"));
       EventManager::global()->subscribe(handler,Path::Any);
@@ -30,6 +31,7 @@ class MapTestSuite : public CxxTest::TestSuite{
       delete map;
       delete c;
       delete handler;
+      delete rman;
       EventManager::destroy();
     }
 
@@ -57,6 +59,12 @@ class MapTestSuite : public CxxTest::TestSuite{
       TS_ASSERT(!handler->didHandle())
       map->addCharacterAt(1,1,c);
       TS_ASSERT(handler->didHandle())
+    }
+
+    void test_contents(){
+      TS_ASSERT(!map->tileAt(0,1)->hasOccupant())
+      map->loadContents();
+      TS_ASSERT(map->tileAt(0,1)->hasOccupant())
     }
 };
 
