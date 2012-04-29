@@ -94,6 +94,11 @@ void Map::loadContents(){
   }
 }
 
+void Map::step(double delta){
+  for(Character *c : _npcs)
+    c->step(delta);
+}
+
 DEF_XML_RESOURCE_LOAD(Map){
   if( strcmp(node->name(),"map") != 0 )
     raise(MalformedResourceException,path,string("Expected 'map' node but found '")+node->name()+"'.");

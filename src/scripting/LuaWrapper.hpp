@@ -35,6 +35,30 @@ class LuaWrapper{
       return callLua<bool,string>("evaluate", "return "+lua);
     }
 
+    //This will generate a LuaCall that will call the function created by the lua_func string
+    //The lua_func string must be formated as an anonymous function, like so:
+    /*
+       function (...)
+          ...
+          return ...
+       end
+     */
+    template<typename Result,typename... Args>
+    static SLB::LuaCall<Result(Args...)> makeLuaFunc(const string& lua_func){
+      if( !script )
+        raise(LuaException,"Lua not initialized!");
+      lua_State* L = script->getState();
+
+      //call evaluate and return the anonymous function
+      lua_getglobal(L, "evaluate");
+      lua_pushstring(L, ("return "+lua_func).c_str());
+      if (lua_pcall(L, 1, 1, 0) != 0)
+        raise(LuaException,"Error creating function: \n"+lua_func+"\nBecause: "+lua_tostring(L,-1));
+
+      //pass the function to LuaCall :D
+      return SLB::LuaCall<Result(Args...)>(L,-1);
+    }
+
     static void printCallback_stderr(SLB::Script*,const char*,size_t);
 
     //exports a value to the global namespace
@@ -44,6 +68,7 @@ class LuaWrapper{
         SLB::Manager::defaultManager()->set(name.c_str(),SLB::slb_dynamic_cast<SLB::Object*,T>(value));
         doString(name+" = SLB."+name); //copy it into the global namespace
     }*/
+
   private:
     static void exportApi(SLB::Manager* m); //actuall exports classes
 

@@ -26,6 +26,7 @@ class Map : public XmlResource, public GuardedObject{
     bool addCharacterAt(int x, int y, Character* c);
     void setContentsPath(const Path& path);
     void loadContents();
+    void step(double delta);
 
     friend class XmlResource;
   private:

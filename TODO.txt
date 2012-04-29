@@ -1,5 +1,5 @@
 Coding
-  Map Contents
+  Lua Function
   World
   Dice Rolling
   Items
@@ -10,7 +10,7 @@ Coding
     Abstract Viewers, etc
     Player, NPC? (There could be no distinction, if there is a "controller" class that can be either a controller or an ai thinker)
   TextMode implementation
-  Specific Conditions
+  Specific Conditions (If we do away with the idea of multiplayer, then a global Player variable would suffice with standard conditions)
   expose api to lua
 
 Make Tools

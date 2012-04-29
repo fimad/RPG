@@ -98,6 +98,12 @@ class LuaTestSuite : public CxxTest::TestSuite{
       TS_ASSERT(LuaWrapper::evaluate<bool>("'a' == 'a'"));
       TS_ASSERT(!LuaWrapper::evaluate<bool>("'a' == 'b'"));
     }
+
+    void test_lua_func(){
+      string f = "function (a,b) return a+b end";
+      SLB::LuaCall<int(int,int)> c = LuaWrapper::makeLuaFunc<int,int,int>(f);
+      TS_ASSERT_EQUALS(c(1,2), 3)
+    }
 };
 
 bool LuaTestSuite::isSet = false;
