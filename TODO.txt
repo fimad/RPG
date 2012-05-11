@@ -1,8 +1,7 @@
 Coding
-  Lua Function
+  Items
   World
   Dice Rolling
-  Items
   Spells
   Quests
   Game System

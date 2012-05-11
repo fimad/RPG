@@ -105,6 +105,9 @@ set(SRC
   src/map/Direction.hpp
   src/map/MapContents.hpp
   src/map/MapContents.cpp
+
+  src/game/Die.hpp
+  src/game/Die.cpp
 )
 
 add_library(barrel-lib

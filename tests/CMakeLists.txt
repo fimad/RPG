@@ -24,6 +24,10 @@ make_test(test_chr_modifiers character/test_modifiers.hpp)
 make_test(test_chr_race_class character/test_race_class.hpp)
 make_test(test_chr_stats character/test_stats.hpp)
 make_test(test_chr_character character/test_character.hpp)
+make_test(test_chr_item character/test_item.hpp)
 
 #map tests
 make_test(test_map map/test_map.hpp)
+
+#game tests
+make_test(test_game_die game/test_die.hpp)

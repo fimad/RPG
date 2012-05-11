@@ -21,8 +21,23 @@ class Tile;
 class Race;
 class Stats;
 class CharacterClass;
+class Item;
 class Character : public XmlResource{
   public:
+    //the slots where things can be equipped on a character
+    enum {
+        HEAD    = 0x0001
+      , TORSO   = 0x0002
+      , LEGS    = 0x0004
+      , FEET    = 0x0008
+      , RING_1  = 0x0010
+      , RING_2  = 0x0020
+      , AMULET  = 0x0040
+      , HAND_1  = 0x0080
+      , HAND_2  = 0x0100
+    };
+    typedef short EquipSlot;
+
     //The character will own the race, classes and stats supplied
     Character(const string& name, Race* race, CharacterClass* startingClass, Stats* initialStats = NULL);
     Character(const string& name, Race* race, list<CharacterClass*> classes, Stats* initialStats = NULL);
@@ -48,12 +63,21 @@ class Character : public XmlResource{
     Race* getRace();
     const list<CharacterClass*>& getClasses();
     virtual void step(double delta);
+
+    //equipping functions
+    bool canEquip(Item* item);
+    void equip(Item* item);
+    void unEquip(Item* item);
+    Item* itemForSlot(EquipSlot);
+    bool slotIsFreE(EquipSlot);
+
   private:
     int _hp;
     int _mp;
     int _exp;
     Tile* _tile;
     Race* _race;
+    list<Item*> _equipped;
     string _name;
     Stats* _stats;
     list<CharacterClass*> _classes;

@@ -8,7 +8,9 @@ unordered_map<string,Die*> Die::_createdDie;
 
 //originall I implemented this with regexes but then I found out that libstdc++ don't have any :(
 //also this doesn't allow spaces, so if you want spaces, FUCK YOU
-Die::Die(const string& roll){
+Die::Die(const string& roll)
+  : _roll(roll)
+{
   const char* cur=roll.c_str();
   const char* start;
   while( *cur != 0 ){
@@ -80,6 +82,11 @@ Die::Die(const string& roll){
 }
 
 void Die::clear(){
+  //delete all created die, hope nothing still references them!
+  for(auto i : _createdDie){
+    Die* d = i.second;
+    delete d;
+  }
   _createdDie.clear();
 }
 
@@ -99,6 +106,9 @@ int Die::roll(){
     }
   }
   return value;
+}
+const string& Die::str(){
+  return _roll;
 }
 
 DieException::DieException(const string& roll, const string& what)

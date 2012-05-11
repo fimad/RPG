@@ -1,0 +1,14 @@
+<item>
+  <name>Test Item</name>
+  <description>Test Description</description>
+  <sell>100</sell>
+  <buy>50</buy>
+  <damage>100d6</damage>
+  <equip_slot>
+    <head />
+    <torso />
+  </equip_slot>
+  <modifier>
+    <stat name="str_mod" value="10" />
+  </modifier>
+</item>

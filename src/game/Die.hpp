@@ -23,11 +23,13 @@ class Die{
     static Die* parse(const string& roll); //each type of roll will correspond to the same instanece of die, DON'T DELETE THEM!
     static void clear();
     int roll();
+    const string& str();
   private:
     Die(const string& roll);
 
     //the tuple contains the sign(-1 or 1), the number of this die type to roll, and the die type
     list<tuple<int,int,int>> _components;
+    string _roll;
     static unordered_map<string,Die*> _createdDie;
 };
 

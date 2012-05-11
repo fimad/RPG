@@ -1,5 +1,5 @@
-#ifndef _ATTRIBUTES_HPP_
-#define _ATTRIBUTES_HPP_
+#ifndef _STATS_HPP_
+#define _STATS_HPP_
 
 #include <string>
 #include <map>
