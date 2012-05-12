@@ -7,6 +7,7 @@
 #include "map/Direction.hpp"
 
 class Map;
+class Item;
 class Character;
 class TileEvent;
 
@@ -27,6 +28,11 @@ class Tile : public XmlResource {
     void removeOccupant();
     Tile* tileInDirection(Direction dir); //NULL on failure
 
+    //inventory
+    vector<Item*> getInventory();
+    void removeItem(Item* item);
+    void holdItem(Item* item);
+
     friend class XmlResource;
   private:
     char _symbol;
@@ -34,6 +40,7 @@ class Tile : public XmlResource {
     int _x,_y;
     bool _walkable;
     Character* _occupant;
+    vector<Item*> _inventory;
     TileEvent* _walkEvent;
     Map* _subMap;
 };

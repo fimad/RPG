@@ -4,6 +4,8 @@
 #include "character/Stats.hpp"
 #include "character/Race.hpp"
 #include "resources/ResourceManager.hpp"
+#include "character/Item.hpp"
+#include "map/Tile.hpp"
 #include <algorithm>
 #include <cstring>
 using namespace std;
@@ -154,6 +156,138 @@ void Character::addClass(CharacterClass* cclass){
   _classes.push_back(cclass);
 }
 
+//equipping functions
+bool Character::canEquip(Item* item){
+  return slotIsFree(item->getEquipSlot());
+}
+
+void Character::equip(Item* item){
+  EquipSlot newSlot;
+  if( translateEquipSlot(item->getEquipSlot(),newSlot) && slotIsFree(newSlot) ){
+    _equipped.push_back(make_tuple(newSlot,item));
+    if( item->hasModifier() ){
+      _stats->addModifier(item->getModifier());
+    }
+  }
+}
+
+void Character::unEquip(Item* item){
+  for( auto e : _equipped ){
+    if( item == get<1>(e) ){
+      remove(_equipped.begin(), _equipped.end(), e);
+      if( item->hasModifier() ){
+        _stats->removeModifier(item->getModifier());
+      }
+      break;
+    }
+  }
+}
+
+Item* Character::itemForSlot(EquipSlot slot){
+  EquipSlot newSlot;
+  translateEquipSlot(slot,newSlot,true);
+
+  for( auto e : _equipped ){
+    if( newSlot & get<0>(e) > 0 ){
+      return get<1>(e);
+    }
+  }
+  return NULL;
+}
+
+bool Character::slotIsFree(EquipSlot slot){
+  EquipSlot newSlot;
+  if( translateEquipSlot(slot,newSlot) ){
+    for( auto e : _equipped ){
+      if( newSlot & get<0>(e) > 0 ){
+        return false;
+      }
+    }
+    return true;
+  }
+  return false;
+}
+
+//this function is ugly as sin and their is probably nicer way to do this
+bool Character::translateEquipSlot(EquipSlot in, EquipSlot& out, bool forSearching){
+  out = 0 | ( in & ~(ONE_HANDED | TWO_HANDED | RING) ); //out = in minus one_handed two handed or ring
+  //now add back in the equivalents
+  if( forSearching ){
+    if( in & ONE_HANDED || in & TWO_HANDED ) 
+      out |= HAND_1 | HAND_2;
+    if( in & RING ) 
+      out |= RING_1 | RING_2;
+    return true;
+  }else{
+    //find which of the following are currently free
+    bool hand_1 = false;
+    bool hand_2 = false;
+    bool ring_1 = false;
+    bool ring_2 = false;
+    for( auto e : _equipped ){
+      if( HAND_1 & get<0>(e) )
+        hand_1 = true;
+      if( HAND_2 & get<0>(e) )
+        hand_2 = true;
+      if( RING_1 & get<0>(e) )
+        ring_1 = true;
+      if( RING_2 & get<0>(e) )
+        ring_2 = true;
+    }
+
+    //check for one handed
+    if( in & ONE_HANDED ){
+      if( hand_1 )
+        out |= HAND_1;
+      else if( hand_2 )
+        out |= HAND_2;
+      else
+        return false;
+    }
+
+    //check for two handed
+    if( in & TWO_HANDED ){
+      if( hand_1 && hand_2 )
+        out |= HAND_1 | HAND_2;
+      else
+        return false;
+    }
+
+    //check for one ring
+    if( in & RING ){
+      if( ring_1 )
+        out |= RING_1;
+      else if( ring_2 )
+        out |= RING_2;
+      else
+        return false;
+    }
+
+    return true;
+  }
+}
+
+//inventory
+vector<Item*> Character::getInventory(){
+  return _inventory;
+}
+
+void Character::removeItem(Item* item){
+  remove(_inventory.begin(),_inventory.end(),item);
+}
+
+void Character::dropItem(Item* item){
+  removeItem(item);
+  if(_tile){
+    _tile->holdItem(item);
+  }
+}
+
+void Character::holdItem(Item* item){
+  _inventory.push_back(item);
+}
+
+
 //this function is _NOT_ thread safe!
 DEF_XML_RESOURCE_LOAD(Character::EquipSlot){
   if( strcmp(node->name(),"equip_slot") != 0 )
@@ -197,6 +331,8 @@ DEF_XML_RESOURCE_LOAD(Character){
   Stats* stats = NULL;
   Race* race = NULL;
   list<CharacterClass*> classes;
+  list<Item*> equipped;
+  list<Item*> inventory;
 
   for(XmlNode* child = node->first_node(); child; child = child->next_sibling()){
     if( strcmp(child->name(),"name") == 0 ){
@@ -221,6 +357,12 @@ DEF_XML_RESOURCE_LOAD(Character){
           c->setLevel(atoi(attr->value()));
         }
       }
+    }else if( strcmp(child->name(),"equipped") == 0 ){
+      for(XmlNode* item = child->first_node(); item; item = item->next_sibling())
+        equipped.push_back( manager->loadResource<Item>(Path(item->value())) );
+    }else if( strcmp(child->name(),"inventory") == 0 ){
+      for(XmlNode* item = child->first_node(); item; item = item->next_sibling())
+        inventory.push_back( manager->loadResource<Item>(Path(item->value())) );
     }
   }
 
@@ -244,6 +386,11 @@ DEF_XML_RESOURCE_LOAD(Character){
   c->setHP(hp);
   c->setMP(mp);
   c->setExp(exp);
+
+  for( Item* i : equipped )
+    c->equip(i);
+  for( Item* i : inventory )
+    c->holdItem(i);
 
   return c;
 }

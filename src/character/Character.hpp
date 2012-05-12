@@ -2,6 +2,7 @@
 #define _CHARACTER_HPP_
 
 #include <list>
+#include <vector>
 #include <string>
 #include "scripting/EventRaiser.hpp"
 #include "resources/XmlResource.hpp"
@@ -74,14 +75,23 @@ class Character : public XmlResource{
     void equip(Item* item);
     void unEquip(Item* item);
     Item* itemForSlot(EquipSlot);
-    bool slotIsFreE(EquipSlot);
+    bool slotIsFree(EquipSlot);
+
+    //inventory
+    vector<Item*> getInventory();
+    void removeItem(Item* item);
+    void dropItem(Item* item);
+    void holdItem(Item* item);
 
   private:
+    bool translateEquipSlot(EquipSlot in, EquipSlot& out, bool forSearching=false);//turns ring and one_handed and two_handed into their actual slots
+
     int _hp;
     int _mp;
     int _exp;
     Tile* _tile;
     Race* _race;
+    vector<Item*> _inventory;
     list<tuple<EquipSlot,Item*>> _equipped;
     string _name;
     Stats* _stats;

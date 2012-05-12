@@ -89,6 +89,18 @@ int Tile::y() const{
   return _y;
 }
 
+vector<Item*> Tile::getInventory(){
+  return _inventory;
+}
+
+void Tile::removeItem(Item* item){
+  remove(_inventory.begin(),_inventory.end(),item);
+}
+
+void Tile::holdItem(Item* item){
+  _inventory.push_back(item);
+}
+
 DEF_XML_RESOURCE_LOAD(Tile){
   if( strcmp(node->name(),"tile") != 0 )
     raise(MalformedResourceException,path,string("Expected 'tile' node but found '")+node->name()+"'.");

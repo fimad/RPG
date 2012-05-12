@@ -13,4 +13,12 @@
     <stat name="wis" value="12" />
     <stat name="cha" value="14" />
   </stats>
+  <equipped>
+    <item>tests/character/test_item.xml</item>
+  </equipped>
+  <inventory>
+    <item>tests/character/test_item.xml</item>
+    <item>tests/character/test_item.xml</item>
+    <item>tests/character/test_item.xml</item>
+  </inventory>
 </character>

@@ -54,6 +54,8 @@ class CharacterTestSuite : public CxxTest::TestSuite{
       TS_ASSERT_EQUALS(c->getMP(), 11);
       TS_ASSERT_EQUALS(c->getExp(), 12);
       TS_ASSERT_EQUALS(c->getStats()->getStat(Stats::STR), 10);
+      TS_ASSERT_EQUALS(c->getStats()->getStat(Stats::STR_MOD), 10); //indirectly tests equipment by checking if it's being modified
+      TS_ASSERT_EQUALS(c->getInventory().size(), 3);
 
       delete rman;
     }
