@@ -2,13 +2,13 @@
 #define _ITEM_HPP_
 
 #include "game/Die.hpp"
-#include "resources/Character.hpp"
+#include "character/Character.hpp"
 #include "resources/XmlResource.hpp"
 
 class Modifier;
 class Item : public XmlResource{
   public:
-    Item(const string& name, const string& description, int sell, int buy, Character::EquipSlots slots=0, const string& damage="d6");
+    Item(const string& name, const string& description, int sell, int buy, Character::EquipSlot slots=0, const string& damage="d6");
     ~Item();
 
     //basic getters

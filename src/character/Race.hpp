@@ -17,7 +17,7 @@ class Race : public XmlResource{
     string _description;
     Modifier* _modifier;
 };
-MAKE_XML_RESOURCE(CharacterClass )
+MAKE_XML_RESOURCE(Race)
 
 #endif
 

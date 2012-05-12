@@ -17,13 +17,13 @@ typedef rapidxml::xml_document<> XmlDoc;
 //Macros that make it "easy" to make new XmlResources
 #define MAKE_XML_RESOURCE(className) \
 MAKE_RESOURCE(className)\
-template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager);
+template <> className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager);
 
 #define DEF_XML_RESOURCE_LOAD(className) \
 DEF_RESOURCE_LOAD(className){\
   return XmlResource::load<className>(path,buffer,manager); \
 } \
-template <> class className* XmlResource::load<className>(const Path& path,XmlNode* node,ResourceManager* manager)
+template <> className* XmlResource::load<className>(const Path& path,XmlNode* node,ResourceManager* manager)
 
 class XmlResource : public Resource{
   public:

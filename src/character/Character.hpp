@@ -26,6 +26,7 @@ class Character : public XmlResource{
   public:
     //the slots where things can be equipped on a character
     enum {
+      //actual slots
         HEAD    = 0x0001
       , TORSO   = 0x0002
       , LEGS    = 0x0004
@@ -35,6 +36,10 @@ class Character : public XmlResource{
       , AMULET  = 0x0040
       , HAND_1  = 0x0080
       , HAND_2  = 0x0100
+      //Not actual slots, but are translated into free slots
+      , ONE_HANDED  = 0x0200
+      , TWO_HANDED  = 0x0400
+      , RING        = 0x0800
     };
     typedef short EquipSlot;
 
@@ -77,12 +82,13 @@ class Character : public XmlResource{
     int _exp;
     Tile* _tile;
     Race* _race;
-    list<Item*> _equipped;
+    list<tuple<EquipSlot,Item*>> _equipped;
     string _name;
     Stats* _stats;
     list<CharacterClass*> _classes;
 };
 MAKE_XML_RESOURCE(Character)
+MAKE_XML_RESOURCE(Character::EquipSlot)
 
 #endif
 

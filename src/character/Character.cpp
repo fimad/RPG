@@ -154,6 +154,37 @@ void Character::addClass(CharacterClass* cclass){
   _classes.push_back(cclass);
 }
 
+//this function is _NOT_ thread safe!
+DEF_XML_RESOURCE_LOAD(Character::EquipSlot){
+  if( strcmp(node->name(),"equip_slot") != 0 )
+    raise(MalformedResourceException,path,string("Expected 'equip_slot' node but found '")+node->name()+"'.");
+
+  static Character::EquipSlot value = 0;
+
+  for(XmlNode* child = node->first_node(); child; child = child->next_sibling()){
+    if( strcmp(child->name(),"head") == 0 )
+      value |= Character::HEAD;
+    if( strcmp(child->name(),"torso") == 0 )
+      value |= Character::TORSO;
+    if( strcmp(child->name(),"legs") == 0 )
+      value |= Character::LEGS;
+    if( strcmp(child->name(),"feet") == 0 )
+      value |= Character::FEET;
+    if( strcmp(child->name(),"ring") == 0 )
+      value |= Character::RING;
+    if( strcmp(child->name(),"one_handed") == 0 )
+      value |= Character::ONE_HANDED;
+    if( strcmp(child->name(),"two_handed") == 0 )
+      value |= Character::TWO_HANDED;
+  }
+
+  if( value & Character::ONE_HANDED && value & Character::TWO_HANDED ){
+    raise(MalformedResourceException,path,"Cannot have both one_handed and two_handed set for the same slot.")
+  }
+
+  return &value;
+}
+
 DEF_XML_RESOURCE_LOAD(Character){
   if( strcmp(node->name(),"character") != 0 )
     raise(MalformedResourceException,path,string("Expected 'character' node but found '")+node->name()+"'.");

@@ -8,10 +8,10 @@ using namespace std;
 
 //Macros that make it "easy" to make new Resources
 #define MAKE_RESOURCE(className) \
-template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager);
+template <> className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager);
 
 #define DEF_RESOURCE_LOAD(className) \
-template <> class className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager)
+template <> className* Resource::load<className>(const Path& path,char* buffer,ResourceManager* manager)
 
 class ResourceManager;
 class Resource : public EventRaiser{
