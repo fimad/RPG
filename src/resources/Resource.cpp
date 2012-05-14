@@ -14,3 +14,4 @@ const Path& Resource::getPath(){
 ResourceManager* Resource::getManager() const{
   return _manager;
 }
+

@@ -1,9 +1,10 @@
 Coding
-  Items
-  World
-  Dice Rolling
   Spells
+  Actions
   Quests
+  Modifiers that go down in time and uses
+    have a boolean to signify what constitutes a use
+  World
   Game System
     Game State
     Abstract Viewers, etc
@@ -11,10 +12,11 @@ Coding
   TextMode implementation
   Specific Conditions (If we do away with the idea of multiplayer, then a global Player variable would suffice with standard conditions)
   expose api to lua
+  Saving
 
 Make Tools
-  Map Editor (Maybe just needed for graphics version?)
-  Dialogue Editor
+  Map Editor (Probably the most important tool)
+  Dialogue Editor (Useful but can get by without for a bit)
 
 Make content :)
   Classes
@@ -26,6 +28,40 @@ Make content :)
 Idea for extensible graphics, create an abstract Graphic class, draw(GraphicsContext,tile position,rotation)
   Also have GraphicsContext be an abstract singleton, leave the singleton intitializer unimplemented.
 Then implement the Resource::load<Graphic> and GraphicsContext singleton for the various types of graphics systems that are to be used
+
+Q: How do lists of Spells and Actions/Feats work with respsect to classes?
+A: Have a generic Book class that maps strings (names or paths?) to class instances and can be loaded from a path and destroyed when need be 
+  Then have a spell book, and a feat book
+  now classes and races or whatever have a set of spells and feats, one for each level. These get unioned together for the total things the character can perform
+  Do I want to do this for Items as well as spells and actions?
+    pros:
+      A lot less memory consumption
+    cons:
+      more round about, but I guess that goes the same for spells and feats
+  A different idea is once cacheing is figured out for the ResourceManager, there can be several different "policies" when loading a new resource.
+    -copy - creates a new instance using the copy constructor
+    -singleton - returns the cached instance
+    I think I like this idea best
+    con:
+      by cacheing, there would have to be no clearing to ensure that the singleton policy did infact remain just one instance, if it's flushed and recreated that's no good
+    ..Actually, I can't think of anything that would need the copy constructor at the moment
+
+    possible way of setting/getting policies for a specific type:
+    By calling it with a valid policy, COPY, SINGLETON, etc. it will initialize the static policy for that type.
+    Calling with default arguments will return what the static policy has been set to :D
+    Because it is templated, each type should get it's own instance of policy.
+
+    enum {
+        COPY
+      , SINGLETON
+      , GET //used in policy setting function, not an actual policy
+    } Policy;
+    template <class T>
+    policyFor(Policy p=GET){
+      static Policy policy;
+      return (p==GET) ? policy : (policy=p);
+    }
+
 
 In Code
   ./src/character/Character.cpp://TODO: handle death, raise an event. Not sure what else. Maybe just that. 

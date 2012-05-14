@@ -27,12 +27,26 @@ class ResourceManager{
           char* buffer = (*i)->getBuffer(path);
           T* resource = Resource::load<T>(path,buffer,this);
           free(buffer);
-          resource->_manager = this;
-          resource->_path = path;
+          //not everything we load will be a subclass of Resource, if it is thought, set the fields
+          Resource* r;
+          if( (r=dynamic_cast<Resource*>(resource)) != 0){
+            r->_manager = this;
+            r->_path = path;
+          }
           return resource;
         }
       }
       raise(NoSuchPathException,path);
+    }
+
+    //caller is responsible for freeing the buffer
+    char* getBuffer(const Path& path){
+      for(auto i = providers.begin(); i!=providers.end(); i++){
+        if((*i)->provides(path)){
+          return (*i)->getBuffer(path);
+        }
+      }
+      return NULL;
     }
 
   private:

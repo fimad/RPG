@@ -1,0 +1,5 @@
+<spell>
+  <name>Print Hello</name>
+  <description>Prints "Hello" to stdout</description>
+  <lua file="tests/character/test_spell.lua"/>
+</spell>

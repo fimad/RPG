@@ -92,7 +92,7 @@ DEF_XML_RESOURCE_LOAD(Item){
   //sanity checks
   if( name == "" )
     raise(MalformedResourceException,path,"Items require a name.");
-  if( name == "" )
+  if( description == "" )
     raise(MalformedResourceException,path,"Items require a description.");
   if( meleeDamage == "" )
     meleeDamage = "d6";

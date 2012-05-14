@@ -97,6 +97,8 @@ set(SRC
   src/character/ProxyModifier.cpp
   src/character/Item.hpp
   src/character/Item.cpp
+  src/character/Spell.hpp
+  src/character/Spell.cpp
 
   src/map/Map.hpp
   src/map/Map.cpp

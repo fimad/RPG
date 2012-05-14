@@ -34,6 +34,5 @@ class Item : public XmlResource{
 };
 MAKE_XML_RESOURCE(Item)
 
-
 #endif
 

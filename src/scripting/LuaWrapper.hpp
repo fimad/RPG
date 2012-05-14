@@ -5,10 +5,13 @@
 #include <SLB/Object.hpp>
 #include <string>
 #include "scripting/LuaErrors.hpp"
+#include "resources/XmlResource.hpp"
 using namespace std;
 
 class LuaWrapper{
   public:
+    typedef string LuaSrc;
+
     //exports classes and functions to lua
     static void setup();
     //destroy's the current lua instance
@@ -74,6 +77,7 @@ class LuaWrapper{
 
     static SLB::Script* script;
 };
+MAKE_XML_RESOURCE(LuaWrapper::LuaSrc)
 
 #endif
 
