@@ -112,6 +112,8 @@ set(SRC
 
   src/game/Die.hpp
   src/game/Die.cpp
+  src/game/GameManager.hpp
+  src/game/GameManager.cpp
 )
 
 add_library(barrel-lib

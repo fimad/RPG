@@ -1,5 +1,4 @@
 Coding
-  Spells
   Actions
   Quests
   Modifiers that go down in time and uses
@@ -61,6 +60,16 @@ A: Have a generic Book class that maps strings (names or paths?) to class instan
       static Policy policy;
       return (p==GET) ? policy : (policy=p);
     }
+
+    might also just be able to get away with:
+    template<class T>
+    Policy policy;
+
+
+    For Saving, there should be a global table in lua that stores ints and strings and other basic datatypes that is persistent
+      -all game state info should stored there
+    There should also be a lua init routine (maybe several, not sure how to implement atm) that handles registering EventHandlers etc and sets default values in the global table
+    Run the lua init functions, then load the global table from a file
 
 
 In Code
